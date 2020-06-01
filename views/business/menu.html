@@ -4,9 +4,9 @@
     </div>
 
     <script>
-        fetch("http://localhost:3000/currentUserId")
+        fetch("/currentUserId")
             .then(response => response.json())
-            .then(data => fetch("http://localhost:3000/getMenu/" + data.response)
+            .then(data => fetch("/getMenu" + data.response)
                                 .then(response => response.json())
                                 .then(data => renderMenu(data)));
             

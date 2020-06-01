@@ -3,7 +3,7 @@
     
 
     <script>
-        fetch('http://localhost:3000/getbusiness')
+        fetch('/getbusiness')
             .then(response => response.json())
             .then(data => renderCards(data));
 

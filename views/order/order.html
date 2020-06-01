@@ -5,13 +5,13 @@
 
 
 <script>
-    fetch("http://localhost:3000/getCurrentBusiness")
+    fetch("/getCurrentBusiness")
         .then(response => response.json())
         .then(business => {
             const businessName = document.createTextNode(business.response.name);
             document.getElementById("title").appendChild(businessName);
 
-            fetch("http://localhost:3000/getMenu/" + business.response.id)
+            fetch("/getMenu/" + business.response.id)
                 .then(response => response.json())
                 .then(data => renderMenu(business, data))
         });

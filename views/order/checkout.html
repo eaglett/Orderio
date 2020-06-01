@@ -33,12 +33,12 @@
         </div>
 
     <script>
-        fetch("http://localhost:3000/getCurrentOrder")
+        fetch("/getCurrentOrder")
         .then(response => response.json())
-        .then(order => fetch("http://localhost:3000/getOrder/" + order.response)
+        .then(order => fetch("/getOrder" + order.response)
                         .then(response => response.json())
                         .then(data => renderOrder(data, order)));
-        fetch("http://localhost:3000/getUserData")
+        fetch("/getUserData")
         .then(response => response.json())
         .then(data => renderAddress(data.response));
 
