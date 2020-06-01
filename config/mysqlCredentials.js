@@ -1,6 +1,6 @@
 module.exports = {
     database: 'orderio',
     user:     'root',
-    password: 'root',
+    password: 'Orderio2020!',
     sessionSecret: 'express session secret'
 }
