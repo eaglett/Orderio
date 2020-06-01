@@ -48,9 +48,9 @@ app.use(orderRoutes);
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 
-app.listen(port, (error) => {
-    if (error){
-        console.log(error);
+const server = app.listen(port, (error) => {
+    if (error) {
+        console.log("Error starting the server");
     }
-    console.log("Server is running on port", server.address().port);
+    console.log("This server is running on port", server.address().port);
 });
