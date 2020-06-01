@@ -8,7 +8,8 @@ class Order extends Model {
       return 'orders';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         business: {
           relation: Model.BelongsToOneRelation,
           modelClass: User,
@@ -39,6 +40,7 @@ class Order extends Model {
           }
         }
     };
+  }
 }
 
 module.exports = Order;

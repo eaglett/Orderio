@@ -7,7 +7,8 @@ class Address extends Model {
       return 'addresses';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         users: {
           relation: Model.HasOneRelation,
           modelClass: User,
@@ -17,6 +18,7 @@ class Address extends Model {
           }
         }
     };
+  }
 }
 
 module.exports = Address;

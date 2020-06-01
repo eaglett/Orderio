@@ -8,7 +8,8 @@ class Ordered_item extends Model {
       return 'orderes_items';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         order: {
           relation: Model.BelongsToOneRelation,
           modelClass: Order,
@@ -25,7 +26,8 @@ class Ordered_item extends Model {
               to: 'dishes.id'
             }
           }
-    };
+    }
+  }
 }
 
 module.exports = Ordered_item;

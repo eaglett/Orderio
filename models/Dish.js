@@ -8,7 +8,8 @@ class Dish extends Model {
       return 'dishes';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         user: {
           relation: Model.BelongsToOneRelation,
           modelClass: User,
@@ -31,6 +32,8 @@ class Dish extends Model {
           }
         }
     };
+  }
 }
+
 
 module.exports = Dish;

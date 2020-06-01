@@ -4,10 +4,11 @@ const User = require('./User.js');
 
 class Role extends Model {
     static get tableName() {
-      return 'roles';
+      return 'persons';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         users: {
           relation: Model.HasManyRelation,
           modelClass: User,
@@ -16,7 +17,8 @@ class Role extends Model {
             to: 'users.roleId'
           }
         }
-    };
+      };
+    }  
 }
 
 module.exports = Role;
