@@ -5,7 +5,7 @@ const Dish = require('./Dish.js');
 
 class Ordered_item extends Model {
     static get tableName() {
-      return 'orderes_items';
+      return 'ordered_items';
     }
 
     static get relationMappings() {
