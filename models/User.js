@@ -10,7 +10,8 @@ class User extends Model {
       return 'users';
     }
 
-    static relationMappings = {
+    static get relationMappings() {
+      return {
         role: {
           relation: Model.BelongsToOneRelation,
           modelClass: Role,
@@ -52,6 +53,7 @@ class User extends Model {
           }
         }
     };
+  }
 }
 
 module.exports = User;
