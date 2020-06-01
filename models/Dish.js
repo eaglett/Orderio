@@ -4,7 +4,9 @@ const User = require('./User.js');
 const Order = require('./Order.js');
 
 class Dish extends Model {
-    static tableName = 'dishes';
+    static get tableName() {
+      return 'dishes';
+    }
 
     static relationMappings = {
         user: {

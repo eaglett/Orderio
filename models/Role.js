@@ -3,7 +3,9 @@ const { Model } = require('objection');
 const User = require('./User.js');
 
 class Role extends Model {
-    static tableName = 'roles';
+    static get tableName() {
+      return 'roles';
+    }
 
     static relationMappings = {
         users: {
