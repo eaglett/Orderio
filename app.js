@@ -48,7 +48,7 @@ app.use(orderRoutes);
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 
-app.listen(PORT, (error) => {
+app.listen(port, (error) => {
     if (error){
         console.log(error);
     }
