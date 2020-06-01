@@ -1,0 +1,83 @@
+    <h3>Your menu:</h3>
+    <a href="/addDish" class="btn btn-primary">Add a dish</a>
+    <div id="root">
+    </div>
+
+    <script>
+        fetch("http://localhost:3000/currentUserId")
+            .then(response => response.json())
+            .then(data => fetch("http://localhost:3000/getMenu/" + data.response)
+                                .then(response => response.json())
+                                .then(data => renderMenu(data)));
+            
+        const renderMenu = (data) => {
+            let list = document.createElement("ul");
+            list.classList.add("list-group");
+            list.classList.add("list-group-flush");
+
+            data["response"].map(i => {
+                let item = document.createElement("li");
+                item.classList.add("list-group-item");
+                let outerContainer = document.createElement("div");
+                outerContainer.classList.add("row");
+                let leftContainer = document.createElement("div");
+                leftContainer.classList.add("col-sm");
+                let rightContainer = document.createElement("div");
+                rightContainer.classList.add("col-sm");
+                let name = document.createElement("h4");
+                let description = document.createElement("small");
+                let price = document.createElement("p");
+                let edit = document.createElement("a");
+                edit.classList.add("btn");
+                edit.classList.add("btn-secondary");
+                
+                let form = document.createElement("FORM");
+                form.action = "/deleteDish/" + i.id;
+                let del = document.createElement("input");
+                del.classList.add("btn");
+                del.classList.add("btn-danger");
+                del.setAttribute("type", "submit");
+                del.formMethod = "post"; //form doesn't accept delete
+                del.value = "Delete";
+
+                let nameText = document.createTextNode(i.name);
+                let descText = document.createTextNode(i.description);
+                let priceText = document.createTextNode(i.price  + " kr.");
+                let editText = document.createTextNode("Edit");
+
+                name.appendChild(nameText);
+                description.appendChild(descText);
+                price.appendChild(priceText);
+                edit.appendChild(editText);
+
+                edit.style.color = "white";
+                edit.href = "/editDish/" + i.id;
+                del.style.color = "white";
+                //del.href = "/deleteDish/" + i.id;
+               
+                form.appendChild(del);
+                
+                leftContainer.appendChild(name);
+                leftContainer.appendChild(description);
+                leftContainer.appendChild(price);
+
+                outerContainer.appendChild(leftContainer);
+
+                rightContainer.appendChild(edit);
+                rightContainer.appendChild(form);
+
+                outerContainer.appendChild(rightContainer);
+
+                item.appendChild(outerContainer);
+
+                //outerContainer.appendChild(leftContainer);
+                //outerContainer.appendChild(rightContainer);
+
+                list.appendChild(item);
+            });
+            document.getElementById("root").appendChild(list);
+        };
+
+    </script>
+    </body>
+</html>

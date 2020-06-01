@@ -1,0 +1,44 @@
+    <h2 style="color: red;">Add carouseul</h2>
+    <div id="root"></div>
+    
+
+    <script>
+        fetch('http://localhost:3000/getbusiness')
+            .then(response => response.json())
+            .then(data => renderCards(data));
+
+        const renderCards = (data) => {
+            data["response"].map( i => {
+                let outerDiv = document.createElement("div");
+                outerDiv.classList.add("card");
+                outerDiv.style.width = "18rem";
+                let innerDiv = document.createElement("div");
+                innerDiv.classList.add("card-body");
+                let title = document.createElement("h5");
+                title.classList.add("card-title");
+                let description = document.createElement("p");
+                description.classList.add("card-text");
+                let button = document.createElement("a");
+                button.classList.add("btn");
+                button.classList.add("btn-primary");
+                button.href = "/order/" + i.id;
+
+                let titleText = document.createTextNode(i.name);
+                let descText = document.createTextNode("Some quick example text to build on the card title and make up the bulk of the card's content.");
+                let buttonText = document.createTextNode("Order");
+
+                title.appendChild(titleText);
+                button.appendChild(buttonText);
+                description.appendChild(descText);
+                innerDiv.appendChild(title);
+                innerDiv.appendChild(description);
+                innerDiv.appendChild(button);
+                outerDiv.appendChild(innerDiv);
+
+                document.getElementById("root").appendChild(outerDiv);
+            });
+        };
+            
+    </script>
+    </body>
+</html> 

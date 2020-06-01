@@ -1,0 +1,7 @@
+{
+    "welcomeIntro": "Welcome to our portal! \nIn order to use your account you need to verify your email. Click on the following link.\n",
+    "verificationLink": "localhost:3000/verification/",
+    "welcomeOutro": "\n Link is valid for 10 minutes. If it expired and you need a new link, visit localhost:3000/newVerification .",
+    "passResetIntro": "We have recived a request to reset your account password. If you didn't request it, ignore this email. If you did, follow the link.\n",
+    "passwordLink": "http://localhost:3000/passwordReset/"
+}

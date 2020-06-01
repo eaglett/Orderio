@@ -1,0 +1,187 @@
+        <div id="root">
+            <div id="row" class="row">
+                <div id="leftColumn" class ="col">
+                    <div id="topContainer">
+                        <h3>Your order:</h3>
+                        <ul id="list" class="list-group list-group-flush">
+
+                        </ul>
+                    </div>
+                    <div id="bottomContainer">
+                        <h3>Delivery address:</h3>
+                        <small>If address is incorrect, please change it in your account management.</small>
+                    </div>
+                </div>
+                <div id="rightColumn" class="col">
+                    <div id="totalPriceContainer">
+                    </div>
+                    <div>
+                        <form id="payment-form">
+                            <div id="card-element">
+                              <!-- Elements will create input elements here -->
+                            </div>
+                          
+                            <!-- We'll put the error messages in this element -->
+                            <div id="card-errors" role="alert"></div>
+                          
+                            <button id="submit">Pay</button>
+                        </form>
+                    </div>                  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        fetch("http://localhost:3000/getCurrentOrder")
+        .then(response => response.json())
+        .then(order => fetch("http://localhost:3000/getOrder/" + order.response)
+                        .then(response => response.json())
+                        .then(data => renderOrder(data, order)));
+        fetch("http://localhost:3000/getUserData")
+        .then(response => response.json())
+        .then(data => renderAddress(data.response));
+
+        const renderOrder = (data, order) => {
+            let priceSum = 0;
+            data["response"].map( (el, index) => { //el = {name: "Soup", price: 50}
+                let item = document.createElement("li");
+                item.classList.add("list-group-item");
+
+                let rowContainer = document.createElement("div");
+                rowContainer.classList.add("row");
+
+                let leftCol = document.createElement("div");
+                leftCol.classList.add("col");
+                let midCol = document.createElement("div");
+                midCol.classList.add("col");
+                let rightCol = document.createElement("div");
+                rightCol.classList.add("col");
+
+                let dishText = document.createTextNode(String(index + 1) + ". " + el.name);
+                let dish = document.createElement("p");
+                dish.appendChild(dishText);
+                leftCol.appendChild(dish);
+
+                priceSum += el.price;
+                let priceText = document.createTextNode(el.price + " kr.");
+                let price = document.createElement("p");
+                price.id = "price";
+                price.appendChild(priceText);
+                midCol.appendChild(price);
+
+                let del = document.createElement("a");
+                del.classList.add("btn");
+                del.classList.add("btn-danger");
+                del.href = "/order/" + order.response + "/delete/" + el.id // /order/:orderId/delete/:dishId -> deletes dish from the order
+                                                                            // redirect na istu stranicu opet, updatean order
+                del.text = "Remove";
+                rightCol.appendChild(del);
+
+                rowContainer.appendChild(leftCol);
+                rowContainer.appendChild(midCol);
+                rowContainer.appendChild(rightCol);
+
+                item.appendChild(rowContainer);
+
+                document.getElementById("list").appendChild(item);
+            });
+
+            let totalPriceText = document.createTextNode("Total: " + priceSum + " kr.");
+            let totalPrice = document.createElement("h5");
+            totalPrice.appendChild(totalPriceText);
+            
+            document.getElementById("totalPriceContainer").appendChild(totalPrice);
+        };
+
+        const renderAddress = (data) => {
+            let streetAddressText;
+            if( data.additional !== null ){
+                streetAddressText = document.createTextNode(data.street + " " + data.number +  " ," + data.additional);
+            } else { 
+                streetAddressText = document.createTextNode(data.street + " " + data.number);
+            }
+            
+            let streetAddress = document.createElement("p");
+            streetAddress.appendChild(streetAddressText);
+
+            let cityAddressText = document.createTextNode(data.postNb + " " + data.city);
+            let cityAddress = document.createElement("p");
+            cityAddress.appendChild(cityAddressText);
+            
+            let countryText = document.createTextNode(data.country);
+            let country = document.createElement("p");
+            country.appendChild(countryText);
+
+            document.getElementById("bottomContainer").appendChild(streetAddress);
+            document.getElementById("bottomContainer").appendChild(cityAddress);
+            document.getElementById("bottomContainer").appendChild(country);
+        };
+      
+    </script>
+
+
+
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+
+
+    <script>
+        var stripe = Stripe('pk_test_J7K7qwv3vmwybGmXjgMc5WTR00ny0Awzem');
+        var elements = stripe.elements();
+
+        var style = {
+            base: {
+                color: "#32325d",
+            }
+        };
+
+        let clientSecret
+        var response = fetch('/paymentsecret').then(function(response) {
+            return response.json();
+            }).then(function(responseJson) {
+            clientSecret = responseJson.client_secret;
+            // Call stripe.confirmCardPayment() with the client secret.
+             });
+
+        var card = elements.create("card", { style: style });
+        card.mount("#card-element");
+
+        card.on('change', ({error}) => {
+            const displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            } else {
+                displayError.textContent = '';
+            }       
+        });
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(ev) {
+            ev.preventDefault();
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                card: card
+                }
+            }).then(function(result) {
+                if (result.error) {
+                // Show error to your customer (e.g., insufficient funds)
+                console.log(result.error.message);
+                } else {
+                // The payment has been processed!
+                    if (result.paymentIntent.status === 'succeeded') {
+                        
+                        /*fetch("/getCurrentOrder")
+                            .then(response => response.json())
+                            .then(order => location.replace("/tracking/" + order.response));*/
+                            console.log("jej")
+                    }
+                }
+            });
+        });
+    </script>
+    
+
+    </body>
+</html>

@@ -1,0 +1,29 @@
+
+    <div class="p-5">
+        <h3>Add a new dish to your menu:</h3>
+            <form method="PUT" action="/" > <!-- Action set dynamically-->
+                <div class="form-group">
+                    <label for="nameField">Name</label>
+                    <input type="text" class="form-control" id="nameField" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="descriptionField">Description</label>
+                    <input type="text" class="form-control" id="descriptionField" name="description">
+                </div>
+                <div class="form-group">
+                    <label for="priceField">Price</label>
+                    <input type="text" class="form-control" id="priceField" name="price" aria-describedby="priceHelp" required>
+                    <small id="priceHelp" class="form-text text-muted">Only enter a number, 'kr.' is automatically added.</small>
+                </div>
+                
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+    </div>
+
+    
+    <script>
+        //console.log(<%- id%>);
+    </script>
+    </body>
+</html>

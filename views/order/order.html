@@ -1,0 +1,104 @@
+<h3 id="title"></h3> <!--dynamically set -->
+<div id="root">
+</div>
+
+
+
+<script>
+    fetch("http://localhost:3000/getCurrentBusiness")
+        .then(response => response.json())
+        .then(business => {
+            const businessName = document.createTextNode(business.response.name);
+            document.getElementById("title").appendChild(businessName);
+
+            fetch("http://localhost:3000/getMenu/" + business.response.id)
+                .then(response => response.json())
+                .then(data => renderMenu(business, data))
+        });
+        
+    const renderMenu = (business, data) => {
+        let form = document.createElement("form");
+        console.log(business);
+        form.action = "/order/" + business.response.id;
+        let order = document.createElement("input");
+        order.classList.add("btn");
+        order.classList.add("btn-primary");
+        order.setAttribute("type", "submit");
+        order.formMethod = "post";
+        order.value = "Order";
+
+        let list = document.createElement("ul");
+        list.classList.add("list-group");
+        list.classList.add("list-group-flush");
+
+        data["response"].map(i => {
+            /* Create containers */
+            let item = document.createElement("li");
+            item.classList.add("list-group-item");
+
+            let outerContainer = document.createElement("div");
+            outerContainer.classList.add("row");
+
+            let leftContainer = document.createElement("div");
+            leftContainer.classList.add("col-sm");
+
+            let rightContainer = document.createElement("div");
+            rightContainer.classList.add("col-sm");
+
+            /* Create name, desc, price*/
+            let name = document.createElement("h4");
+            let description = document.createElement("small");
+            let price = document.createElement("p"); 
+
+            let nameText = document.createTextNode(i.name);
+            let descText = document.createTextNode(i.description);
+            let priceText = document.createTextNode(i.price  + " kr.");
+
+            name.appendChild(nameText);
+            description.appendChild(descText);
+            price.appendChild(priceText);
+            
+            /* Fill left and outer container*/
+            leftContainer.appendChild(name);
+            leftContainer.appendChild(description);
+            leftContainer.appendChild(price);
+
+            outerContainer.appendChild(leftContainer);
+
+            /* Create everything for 'Add to the order' checkbox */
+            let checkDiv = document.createElement("div");
+            checkDiv.classList.add("form-check");
+
+            let checkbox = document.createElement("input");
+            checkbox.classList.add("form-check-input");
+            checkbox.type = "checkbox";
+            checkbox.id = i.name;
+            checkbox.name = i.name; //checkbox name is food name;
+            checkbox.value = i.name;
+
+            let label = document.createElement("label");
+            label.classList.add("form-check-label");
+            label.htmlFor = i.name;
+            let labelText = document.createTextNode("Add to the order");
+            label.appendChild(labelText);
+
+            checkDiv.appendChild(checkbox);
+            checkDiv.appendChild(label);
+
+            /* Fill right and outer container */
+            rightContainer.appendChild(checkDiv);
+
+            outerContainer.appendChild(rightContainer);
+
+            item.appendChild(outerContainer);
+            list.appendChild(item);
+        });
+
+        form.appendChild(list);
+        form.appendChild(order);
+        document.getElementById("root").appendChild(form);
+    };
+
+</script>
+</body>
+</html>
