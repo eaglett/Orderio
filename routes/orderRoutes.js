@@ -122,8 +122,6 @@ router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) 
     const endpointSecret = 'whsec_...';
     const sig = request.headers['stripe-signature'];
 
-
-
     let event;
   
     try {

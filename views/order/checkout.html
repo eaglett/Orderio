@@ -35,7 +35,7 @@
     <script>
         fetch("/getCurrentOrder")
         .then(response => response.json())
-        .then(order => fetch("/getOrder" + order.response)
+        .then(order => fetch("/getOrder/" + order.response)
                         .then(response => response.json())
                         .then(data => renderOrder(data, order)));
         fetch("/getUserData")
