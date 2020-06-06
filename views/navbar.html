@@ -8,6 +8,26 @@
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
+
+    <script>
+        fetch("/getUser")
+          .then(response => response.json())
+          .then(data => {
+            if (data.response !== undefined){
+              let hide = Array.from(document.getElementsByClassName("auth-hide"));
+              hide.map( el => el.style.display = "none");
+              let show = Array.from(document.getElementsByClassName("auth-show"));
+              show.map( el => el.style.display = "block");
+            } else {
+              let hide = Array.from(document.getElementsByClassName("auth-show"));
+              hide.map( el => el.style.display = "none");
+              let show = Array.from(document.getElementsByClassName("auth-hide"));
+              show.map( el => el.style.display = "block");
+            }
+          });
+        
+        
+    </script>
 </head>
 <body>
 
@@ -31,16 +51,16 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarNav2">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item auth-hide">
               <a class="nav-link" href="/signup">Sign up</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item auth-hide">
               <a class="nav-link" href="/login">Login</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item  auth-show">
               <a class="nav-link" href="/manage">Manage account</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item auth-show">
               <a class="nav-link" href="/logout">Logout</a>
             </li>
           </ul>

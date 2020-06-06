@@ -1,0 +1,91 @@
+
+   <div class="p-5">
+    <h3>Here you can modify your business page</h3>
+    <p>Only write in fields that need to be changed. Empty fields will remail the same as before</p>
+        <form method="POST" action="/manageBusiness" >
+
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Basic information
+                      </a>
+                    </h5>
+                  </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="nameField">Full name</label>
+                            <input type="text" class="form-control" id="nameField" name="name" >
+                        </div>
+                        <div class="form-group">
+                            <label for="descField">Description</label>
+                            <input type="text" class="form-control" id="descField"  name="descriptopn" >
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                      <h5 class="mb-0">
+                        <a class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          Password
+                        </a>
+                      </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                      <div class="card-body">
+                          <a class="btn btn-primary" method="GET" href="/requestNewPassword">Request password change</a>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Address
+                    </a>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="streetField">Street name</label>
+                            <input type="text" class="form-control" id="streetField" name="street" >
+                        </div>
+                        <div class="form-group">
+                            <label for="numberField">Street number</label>
+                            <input type="text" class="form-control" id="numberField"  name="number" >
+                        </div>
+                        <div class="form-group">
+                        <label for="additionalField">Additional address information</label>
+                        <input type="text" class="form-control" id="additionalField"  name="additional" aria-describedby="additionalHelp">
+                        <small id="additionalHelp" class="form-text text-muted"> Enter a floor, apartment number or such additional information to the address.</small>
+                    </div>
+                    <div>
+                        <label for="postField">Postal Number</label>
+                        <input type="text" class="form-control" id="postField" name="postNb"  required>
+                    </div>
+                    <div>
+                        <label for="cityField">City</label>
+                        <input type="text" class="form-control" id="cityField" name="city"  required>
+                    </div>
+                    <div>
+                        <label for="countryField">Country</label>
+                        <input type="text" class="form-control" id="countryField" name="country"  required>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+   </div>
+
+</body>
+</html>

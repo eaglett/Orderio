@@ -147,4 +147,8 @@ router.get("/logout", (req, res) => {
       })
 });
 
+router.get("/getUser", (req, res) => {
+    return res.send({response: req.session.authorization});
+});
+
 module.exports = router;
