@@ -4,7 +4,7 @@ const User = require('./User.js');
 
 class Role extends Model {
     static get tableName() {
-      return 'persons';
+      return 'roles';
     }
 
     static get relationMappings() {
