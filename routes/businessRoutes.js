@@ -49,9 +49,35 @@ router.get("/managebusiness", (req, res) => {
     return res.send(navbarPage + manageBusinessPage);
 });
 
-router.post("/managebusiness", (req, res) => {
-    //TODO: finish
-    const {name, oldPassword, newPassword, newPasswordRepeat, street, number, additional, postNb, city, country} = req.body;
+router.post("/managebusiness", async (req, res) => {
+    let change = {}
+    for (let key in req.body) {
+        if (req.body[key] !== ''){
+            change[key] = req.body[key];
+        }
+    }
+    try {
+        const currentUser = await User.query()
+                               .select('id', 'name', 'addressId')
+                               .where({email: req.session.authorization.user});
+        if(change['name'] !== undefined){
+            const updated = await User.query()
+                                      .where({id: currentUser[0].id})
+                                      .update({'name': change['name']})
+            delete change['name'];
+        };
+        if ( Object.keys(change).length > 0 ){
+            const updated = await Address.query()
+                                         .where({id: currentUser[0].addressId})
+                                         .update(change);
+        }
+        return res.send(200).send({response: "Your information is updated"});
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({response: "Something went wrong with the database."});
+    }
+
 });
 
 module.exports = router;
