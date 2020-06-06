@@ -1,71 +1,75 @@
 
    <div class="p-5">
     <h3>Sign up:</h3>
-    <div class="alert alert-warning" role="alert" id="alert" name="alert"></div>
     <form method="POST" action="/signup" >
         <h5>Are you signing up as a customer or a business?</h5>
 
-        <div class="btn-group" role="group" aria-label="Basic example">
-        <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="type" id="customerRadio" value="customer" required>
-        <label class="form-check-label" for="customerRadio">Customer</label>
-        </div>
-        <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="type" id="businessRadio" value="business"required>
-        <label class="form-check-label" for="businessRadio">Business</label>
-        </div>
-        </div>
-
-        <div class="form-group">
-        <label for="nameField">Full name</label>
-        <input type="text" class="form-control" id="nameField" name="name" required>
-        </div>
-        <div class="form-group">
-        <label for="emailField">Email address</label>
-        <input type="email" class="form-control" id="emailField"  name="email" required>
-        </div>
-        <div class="form-group">
-        <label for="passwordField">Password</label>
-        <input type="password" class="form-control" id="passwordField" name="password" required>
-        </div>
-        <div class="form-group">
-        <label for="passwordRepeatField">Repeat password</label>
-        <input type="password" class="form-control" id="passwordRepeatField" name="passwordRepeat" required>
+        <div class="btn-group" role="group" aria-label="Basic example" style="margin-bottom: 1em;">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="customerRadio" value="customer" required>
+                <label class="form-check-label" for="customerRadio">Customer</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="type" id="businessRadio" value="business"required>
+                <label class="form-check-label" for="businessRadio">Business</label>
+            </div>
         </div>
 
-        <h5>Address</h5>
-        <div class="form-group">
-        <label for="streetField">Street</label>
-        <input type="text" class="form-control" id="streetField" name="street"  required>
+        <div class="row">
+            <div class="col-sm">
+                <div class="form-group">
+                    <label for="nameField">Full name</label>
+                    <input type="text" class="form-control" id="nameField" name="name" required>
+                </div>
+                    <div class="form-group">
+                    <label for="emailField">Email address</label>
+                    <input type="email" class="form-control" id="emailField"  name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordField">Password</label>
+                    <input type="password" class="form-control" id="passwordField" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="passwordRepeatField">Repeat password</label>
+                    <input type="password" class="form-control" id="passwordRepeatField" name="passwordRepeat" required>
+                </div>
+            </div>
+            <div class="col-sm">
+                <h5>Address</h5>
+                <div class="form-group">
+                    <label for="streetField">Street</label>
+                    <input type="text" class="form-control" id="streetField" name="street"  required>
+                </div>
+                <div>
+                    <label for="numberField">House number</label>
+                    <input type="text" class="form-control" id="numberField" name="number"  required>
+                </div>
+                <div>
+                    <label for="additionalField">Additional address information</label>
+                    <input type="text" class="form-control" id="additionalField" name="additional" aria-describedby="additionalHelp">
+                    <small id="additionalHelp" class="form-text text-muted">Enter a floor, apartment number or such additional information to the address.</small>
+                </div>
+                <div>
+                    <label for="postField">Postal Number</label>
+                    <input type="text" class="form-control" id="postField" name="postNb"  required>
+                </div>
+                <div>
+                    <label for="cityField">City</label>
+                    <input type="text" class="form-control" id="cityField" name="city"  required>
+                </div>
+                <div>
+                    <label for="countryField">Country</label>
+                    <input type="text" class="form-control" id="countryField" name="country"  required>
+                </div>
+            </div>
         </div>
-        <div>
-        <label for="numberField">House number</label>
-        <input type="text" class="form-control" id="numberField" name="number"  required>
+        <div style="text-align: center; align-content: center; margin-top: 1.5em;">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
+                <label class="form-check-label" for="defaultCheck1">I accept terms and conditions.</label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 15em; margin-top: 0.5em;">Submit</button>
         </div>
-        <div>
-        <label for="additionalField">Additional address information</label>
-        <input type="text" class="form-control" id="additionalField" name="additional" aria-describedby="additionalHelp">
-        <small id="additionalHelp" class="form-text text-muted">Enter a floor, apartment number or such additional information to the address.</small>
-        </div>
-        <div>
-        <label for="postField">Postal Number</label>
-        <input type="text" class="form-control" id="postField" name="postNb"  required>
-        </div>
-        <div>
-        <label for="cityField">City</label>
-        <input type="text" class="form-control" id="cityField" name="city"  required>
-        </div>
-        <div>
-        <label for="countryField">Country</label>
-        <input type="text" class="form-control" id="countryField" name="country"  required>
-        </div>
-
-        <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
-        <label class="form-check-label" for="defaultCheck1">I accept terms and conditions.</label>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
    </div>
 
