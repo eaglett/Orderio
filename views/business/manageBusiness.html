@@ -98,5 +98,14 @@
         </form>
    </div>
 
+   <script>
+        fetch("/getUserData")
+          .then(response => response.json())
+          .then(data => {
+            for(let key in data){
+                    document.getElementsByName(key)[0].placeholder = data[[key]];
+                }
+          })
+   </script>
 </body>
 </html>

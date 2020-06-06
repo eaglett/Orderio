@@ -38,7 +38,7 @@
         .then(order => fetch("/getOrder/" + order.response)
                         .then(response => response.json())
                         .then(data => renderOrder(data, order)));
-        fetch("/getUserData")
+        fetch("/getUserAddress")
         .then(response => response.json())
         .then(data => renderAddress(data.response));
 

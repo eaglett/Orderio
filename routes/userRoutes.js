@@ -125,7 +125,7 @@ router.get("/currentUserId", async (req, res) => {
     };
 });
 
-router.get("/getUserData", async (req, res) => {
+router.get("/getUserAddress", async (req, res) => {
     if(req.session.authorization !== undefined){
         try {
             const user = await User.query()
@@ -139,8 +139,24 @@ router.get("/getUserData", async (req, res) => {
         }
     } else {
         return res.redirect("/login");
-    };
-    
+    }; 
+});
+
+router.get("/getUserData", async (req, res) => {
+    if(req.session.authorization !== undefined){
+        try {
+            const user = await User.query()
+                                    .join('addresses', 'users.addressId', 'addresses.id')
+                                    .select('name', 'street', 'number', 'additional', 'postNb', 'city', 'country')
+                                    .where({email: req.session.authorization.user});
+            return res.send(user[0]);
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({ response: "Something went wrong with the database" });
+        }
+    } else {
+        return res.redirect("/login");
+    }; 
 });
 
 module.exports = router;
