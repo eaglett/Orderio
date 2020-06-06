@@ -46,7 +46,7 @@ router.post("/addDish", async(req, res) => {
                                        .where({email: req.session.authorization.user});
             const dish = await Dish.query().insert({name, description, price, businessId: business[0].id});
             
-            return res.send({response: "The dish was added to the database."})
+            return res.send({response: "The dish was added to the database."}).redirect("/menu");
         } catch(error){
             console.log(error)
             return res.status(500).send({response: "Something went wrong with the database"});
