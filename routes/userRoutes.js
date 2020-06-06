@@ -110,28 +110,37 @@ router.post("/passwordReset/:email&:verification", async (req, res) => {
 });
 
 router.get("/currentUserId", async (req, res) => {
-    try{
-        const user = await User.query()
-                               .select('id')
-                               .where({email: req.session.authorization.user});
-        return res.send({response: user[0].id});
-    } catch(error){
-        console.log(error)
-        return res.status(500).send({ response: "Something went wrong with the database" });
-    }
+    if(req.session.authorization !== undefined){
+        try{
+            const user = await User.query()
+                                   .select('id')
+                                   .where({email: req.session.authorization.user});
+            return res.send({response: user[0].id});
+        } catch(error){
+            console.log(error)
+            return res.status(500).send({ response: "Something went wrong with the database" });
+        }
+    } else {
+        return res.redirect("/login");
+    };
 });
 
 router.get("/getUserData", async (req, res) => {
-    try {
-        const user = await User.query()
-                                .join('addresses', 'users.addressId', 'addresses.id')
-                                .select('street', 'number', 'additional', 'postNb', 'city', 'country')
-                                .where({email: req.session.authorization.user});
-        return res.send({response: user[0]});
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send({ response: "Something went wrong with the database" });
-    }
+    if(req.session.authorization !== undefined){
+        try {
+            const user = await User.query()
+                                    .join('addresses', 'users.addressId', 'addresses.id')
+                                    .select('street', 'number', 'additional', 'postNb', 'city', 'country')
+                                    .where({email: req.session.authorization.user});
+            return res.send({response: user[0]});
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({ response: "Something went wrong with the database" });
+        }
+    } else {
+        return res.redirect("/login");
+    };
+    
 });
 
 module.exports = router;
