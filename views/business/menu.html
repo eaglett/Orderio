@@ -6,7 +6,7 @@
     <script>
         fetch("/currentUserId")
             .then(response => response.json())
-            .then(data => fetch("/getMenu" + data.response)
+            .then(data => fetch("/getMenu/" + data.response)
                                 .then(response => response.json())
                                 .then(data => renderMenu(data)));
             
