@@ -81,6 +81,7 @@ router.post("/signup", async (req, res) => {
                     return res.send({ response: `User has been created. Check your email to verify the account.` });
                 }
             } catch (error) {
+                console.log(error)
                 return res.status(500).send({ response: "Something went wrong with the database" });
             }
         }
