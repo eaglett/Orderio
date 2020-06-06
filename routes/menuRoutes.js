@@ -100,8 +100,23 @@ router.get("/editDish/:id", async (req, res) => {
     }; 
 })
 
-router.put("/editDish/:id", async (req, res) => {
-    const {name, description, price} = req.body;
+router.post("/editDish/:id", async (req, res) => {
+    let change = {}
+    for (let key in req.body) {
+        if (req.body[key] !== ''){
+            change[key] = req.body[key];
+        }
+    }
+    if (Object.keys(change).length > 0){ //if anything changed
+        try {
+            const dish = await Dish.query()
+                                   .where({'id': req.params.id})
+                                   .update(change);
+            return res.redirect("/menu");
+        } catch (error) {
+            return res.status(500).send({response: "Something went wrong with the database"});
+        }
+    }
 });
 
 router.post("/deleteDish/:id", async (req, res) => {
