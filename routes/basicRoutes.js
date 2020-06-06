@@ -10,7 +10,6 @@ const aboutPage = fs.readFileSync(path.join(__dirname, "../views", "about.html")
 
 /* Set up routes */
 router.get("/", (req, res) => {
-    //console.log(req.session.authorization === null)
     res.send(navbarPage + indexPage);
 });
 

@@ -22,10 +22,31 @@ const orderPage = fs.readFileSync(path.join(__dirname, '../views/order', 'order.
 const checkoutPage = fs.readFileSync(path.join(__dirname, '../views/order', 'checkout.html'));
 
 /* Set up routes */
+router.get("/getCurrentOrder", (req, res) => {
+    return res.send({response: req.session.order});
+});
+
+router.get("/getOrder/:id", async (req, res) => {
+    try {
+        const ordered_items = await Ordered_item.query()
+                                                .join('dishes', 'ordered_items.dish_id', 'dishes.id')
+                                                .select('dishes.id', 'name', 'price')
+                                                .where({orderId: req.params.id});
+        return res.send({response: ordered_items});
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({response: "Something went wrong with the database"});
+    }
+});
 
 router.get("/order/:id", (req, res) => { //id is business id
-    req.session.business = req.params.id;
-    return res.send(navbarPage + orderPage);
+    if(req.session.authorization !== undefined){
+        req.session.business = req.params.id;
+        return res.send(navbarPage + orderPage);
+    } else {
+        return res.redirect("/login");
+    };
+    
 });
 
 router.post("/order/:id", async(req, res) => {
@@ -77,38 +98,39 @@ router.post("/order/:id", async(req, res) => {
     }
 });
 
-router.get("/getCurrentOrder", (req, res) => {
-    return res.send({response: req.session.order});
-});
-
-router.get("/getOrder/:id", async (req, res) => {
-    try {
-        const ordered_items = await Ordered_item.query()
-                                                .join('dishes', 'ordered_items.dish_id', 'dishes.id')
-                                                .select('dishes.id', 'name', 'price')
-                                                .where({orderId: req.params.id});
-        return res.send({response: ordered_items});
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send({response: "Something went wrong with the database"});
-    }
-});
-
 router.get("/order/:orderId/delete/:dishId", async (req, res) => {
+    let user;
     try {
-        const ordered_items = await Ordered_item.query()
-                                                .where({orderId: req.params.orderId, dishId: req.params.dishId})
-                                                .del();
-        return res.redirect("/checkout/" + req.params.orderId);
+        user = await User.query()
+                            .join('orders', 'users.id', 'orders.customerId')
+                            .select('email')
+                            .where({'orders.id': req.params.orderId});
+        
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
+    //check if logged in user is the same user who is order owner
+    if(req.session.authorization !== undefined && user[0].email === req.session.authorization.user){
+        try {
+            const ordered_items = await Ordered_item.query()
+                                                    .where({orderId: req.params.orderId, dishId: req.params.dishId})
+                                                    .del();
+            return res.redirect("/checkout/" + req.params.orderId);
+        } catch (error) {
+            return res.status(500).send({response: "Something went wrong with the database"});
+        }
+    } else {
+        return res.redirect("/login");
+    }; 
 });
 
 router.get("/checkout/:orderId", (req, res) => {
-    req.session.order = req.params.orderId;
-    return res.send(navbarPage + checkoutPage);
+    if(req.session.authorization !== undefined){
+        req.session.order = req.params.orderId;
+        return res.send(navbarPage + checkoutPage);
+    } else {
+        return res.redirect("/login");
+    };   
 })
 
 router.get("/paymentSecret", async (req, res) => {

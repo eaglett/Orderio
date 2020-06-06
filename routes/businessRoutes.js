@@ -18,12 +18,8 @@ router.get("/getBusiness", async (req, res) => { //returns all registrated busin
         const businessUsers = await User.query().join('roles', 'users.roleId', 'roles.id')
                                                 .select('users.id', 'name')
                                                 .where({role: "BUSINESS"});
-        //console.log(businessUsers);
-        //router.locals = businessUsers
         return res.send({response: businessUsers});
     } catch (error){
-        console.log(error);
-        
         return res.status(500).send({ response: "Something went wrong with the database" });
     }
 });
@@ -34,8 +30,6 @@ router.get("/getCurrentBusiness", async (req, res) => {
         const business = await User.query().select('id', 'name').where({id: businessId});
         return res.send({response: business[0]});
     } catch (error) {
-        console.log(error);
-        
         return res.status(500).send({ response: "Something went wrong with the database" });
     }
 });
@@ -46,7 +40,11 @@ router.get("/browse", (req, res) => {
 });
 
 router.get("/managebusiness", (req, res) => {
-    return res.send(navbarPage + manageBusinessPage);
+    if(req.session.authorization !== undefined){
+        return res.send(navbarPage + manageBusinessPage);
+    } else {
+        return res.redirect("/login");
+    };
 });
 
 router.post("/managebusiness", async (req, res) => {

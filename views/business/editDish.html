@@ -1,6 +1,6 @@
 
     <div class="p-5">
-        <h3>Add a new dish to your menu:</h3>
+        <h3>Edit the dish:</h3>
             <form method="PUT" action="/" > <!-- Action set dynamically-->
                 <div class="form-group">
                     <label for="nameField">Name</label>
@@ -21,9 +21,17 @@
             </form>
     </div>
 
-    
     <script>
-        //console.log(<%- id%>);
+        const href = document.location.href.split('/');
+        const dishId = href[href.length - 1];
+        fetch('/getDish/' + dishId)
+            .then(response => response.json())
+            .then(data => {
+                for(let key in data){
+                    document.getElementsByName(key)[0].placeholder = data[[key]];
+                }
+            });
+        
     </script>
     </body>
 </html>

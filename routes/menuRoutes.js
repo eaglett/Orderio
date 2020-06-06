@@ -17,23 +17,47 @@ const editDishPage = fs.readFileSync(path.join(__dirname, '../views/business', '
 /* Set up routes */
 
 router.get("/getMenu/:id", async (req, res) => { //business id
-    try{
-        const dishes = await Dish.query()
-                                 .select()
-                                 .where({businessId: req.params.id});
-        return res.send({response: dishes});
-    } catch(error){
-        console.log(error);
-        return res.status(500).send({ response: "Something went wrong with the database" });
+    if(req.session.authorization !== undefined){
+        try{
+            const dishes = await Dish.query()
+                                     .select()
+                                     .where({businessId: req.params.id});
+            return res.send({response: dishes});
+        } catch(error){
+            console.log(error);
+            return res.status(500).send({ response: "Something went wrong with the database" });
+        }
+    } else {
+        return res.redirect("/login");
+    };  
+});
+
+router.get("/getDish/:id", async (req, res) => {
+    try {  
+        const dish = await Dish.query()
+                               .select('name', 'description', 'price')
+                               .where({'id': req.params.id});
+        return res.send(dish[0]);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({response: "Something went wrong with the database"});
     }
 });
 
 router.get("/menu", (req, res) => {
-    return res.send(navbarPage + menuPage);
+    if(req.session.authorization !== undefined){
+        return res.send(navbarPage + menuPage);
+    } else {
+        return res.redirect("/login");
+    };  
 });
 
 router.get("/addDish", (req, res) => {
-    return res.send(navbarPage + addDishPage);
+    if(req.session.authorization !== undefined){
+        return res.send(navbarPage + addDishPage);
+    } else {
+        return res.redirect("/login");
+    }; 
 });
 
 router.post("/addDish", async(req, res) => {
@@ -56,37 +80,55 @@ router.post("/addDish", async(req, res) => {
     }
 });
 
-router.get("/getDish/:id", async (req, res) => {
-    try {  
-        const dish = await Dish.query()
-                               .select()
-                               .where({id: req.params.id});
-        return dish[0];
+router.get("/editDish/:id", async (req, res) => {
+    let user;
+    try {
+        user = await User.query()
+                            .join('dishes', 'users.id', 'dishes.businessId')
+                            .select('email')
+                            .where({'dishes.id': req.params.id});
+        
     } catch (error) {
         console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
-})
-
-router.get("/editDish/:id", (req, res) => {
-    res.locals.id = JSON.stringify(req.params.id); //TODO: delete this?
-    return res.send(navbarPage + editDishPage);
+    //check if logged in user is the same user who is dish owner
+    if(req.session.authorization !== undefined && user[0].email === req.session.authorization.user){
+        return res.send(navbarPage + editDishPage);
+    } else {
+        return res.redirect("/login");
+    }; 
 })
 
 router.put("/editDish/:id", async (req, res) => {
-    //TODO!!!
+    const {name, description, price} = req.body;
 });
 
 router.post("/deleteDish/:id", async (req, res) => {
+    let user;
     try {
-        const dish = await Dish.query()
-                               .where({id: req.params.id})
-                               .del();
-        return res.status(200).redirect("/menu")
+        user = await User.query()
+                            .join('dishes', 'users.id', 'dishes.businessId')
+                            .select('email')
+                            .where({'dish.id': req.params.id});
+        
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
+    //check if logged in user is the same user who is dish owner
+    if(req.session.authorization !== undefined && user[0].email === req.session.authorization.user){
+        try {
+            const dish = await Dish.query()
+                                   .where({id: req.params.id})
+                                   .del();
+            return res.status(200).redirect("/menu")
+        } catch (error) {
+            console.log(error)
+            return res.status(500).send({response: "Something went wrong with the database"});
+        };
+    } else {
+        return res.redirect("/login");
+    }; 
 });
 
 module.exports = router;

@@ -28,9 +28,17 @@ const loginPage = fs.readFileSync(path.join(__dirname, '../views/auth', 'login.h
 
 
 /* Set up routes */
+router.get("/getUser", (req, res) => {
+    return res.send({response: req.session.authorization});
+});
 
 router.get("/signup", (req, res) => {
-    return res.send(navbarPage + signupPage);
+    if(req.session.authorization !== undefined){
+        //user is already logged in
+        return res.redirect("/logout");
+    } else {
+        return res.send(navbarPage + signupPage);
+    };
 });
 
 router.post("/signup", async (req, res) => {
@@ -93,7 +101,12 @@ router.post("/signup", async (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-    return res.send(navbarPage + loginPage);
+    if(req.session.authorization !== undefined){
+        //user is already logged in
+        return res.redirect("/");
+    } else {
+        return res.send(navbarPage + loginPage);
+    };
 });
 
 router.post("/login", async (req, res) => {
@@ -145,10 +158,6 @@ router.get("/logout", (req, res) => {
             return res.status(500).send({ response: "Something went wrong, couldn't log out" });
         }
       })
-});
-
-router.get("/getUser", (req, res) => {
-    return res.send({response: req.session.authorization});
 });
 
 module.exports = router;

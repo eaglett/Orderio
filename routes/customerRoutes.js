@@ -13,7 +13,11 @@ const managepersonalPage = fs.readFileSync(path.join(__dirname, '../views/custom
 
 /* Set up routes */
 router.get("/managepersonal", (req, res) => {
-    res.send(navbarPage + managepersonalPage);
+    if(req.session.authorization !== undefined){
+        return res.send(navbarPage + managepersonalPage);
+    } else {
+        return res.redirect("/login");
+    };  
 });
 
 router.post("/managepersonal", async (req, res) => {
