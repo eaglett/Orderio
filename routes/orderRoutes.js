@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 /* Set up Stripe & verification */
 const Stripe = require('../config/stripe.js');
+const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
 const Verification = require('../config/verification.js');
 const keys = require('../config/keys.js');
 const request = require('request');
 
 // Use body-parser to retrieve the raw body as a buffer
 const bodyParser = require('body-parser');
-const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
 
 /* Set up models */
 const User = require('../models/User.js');
@@ -154,14 +154,14 @@ router.get("/paymentSecret", async (req, res) => {
 
 // Match the raw body to content type application/json
 router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) => {
-    let event;
-    console.log(req.body)
+    let event = req.body;
+    /*console.log(req.body)
     try {
       event = JSON.parse(req.body);
     } catch (err) {
       res.status(400).send(`Webhook Error: ${err.message}`);
     }
-    console.log(event)
+    console.log(event)*/
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
