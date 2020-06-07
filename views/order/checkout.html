@@ -171,11 +171,8 @@
                 } else {
                 // The payment has been processed!
                     if (result.paymentIntent.status === 'succeeded') {
-                        
-                        /*fetch("/getCurrentOrder")
-                            .then(response => response.json())
-                            .then(order => location.replace("/tracking/" + order.response));*/
-                            console.log("jej")
+                        const currentPage = document.location.href;
+                        window.location.href = currentPage.split("/", 1) + "/tracking";
                     }
                 }
             });

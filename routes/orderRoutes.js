@@ -157,19 +157,17 @@ router.get("/paymentSecret", async (req, res) => {
 // Match the raw body to content type application/json
 router.post("/webhook", (req, res) => {
     let event = req.body;
-    console.log("event", event)
+
     // Handle the event
-    switch (event.type) {
-      case 'payment_intent.succeeded':
+    if( event.type === 'payment_intent.succeeded'){   
         const emails = event.data.object.description.split(";");
+
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
         nodeMailer.sendMail(emails[0], customerMessage);
+        
         const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
         nodeMailer.sendMail(emails[1], businessMessage);
-        console.log("payemnt intent successful");
-        break;
-        //return res.redirect("http://34.207.121.253/tracking");
-      default:
+    } else{
         // Unexpected event type
         return res.status(400).end();
     }
