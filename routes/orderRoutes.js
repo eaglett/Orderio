@@ -157,10 +157,13 @@ router.get("/paymentSecret", async (req, res) => {
 // Match the raw body to content type application/json
 router.post("/webhook", (req, res) => {
     let event = req.body;
-
+    console.log("event", event)
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
+        console.log("customer", event.receipt_email)
+        console.log("business", event.metadata.business_email)
+        console.log("metadata", event.metadata)
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
         nodeMailer.sendMail(event.receipt_email, customerMessage);
         const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
