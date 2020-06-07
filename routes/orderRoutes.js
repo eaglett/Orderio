@@ -154,14 +154,10 @@ router.get("/paymentSecret", async (req, res) => {
 
 // Match the raw body to content type application/json
 router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) => {
-    const endpointSecret = keys.webhookEndpointSecret;
-    const sig = request.headers['stripe-signature'];
-
     let event;
   
     try {
-      //event = JSON.parse(req.body);
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = JSON.parse(req.body);
     } catch (err) {
       res.status(400).send(`Webhook Error: ${err.message}`);
     }
