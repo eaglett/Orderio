@@ -167,6 +167,7 @@
                 // The payment has been processed!
                     if (result.paymentIntent.status === 'succeeded') {
                         const currentPage = document.location.href;
+                        const orderIdArray = currentPage.split("/");
                         window.location.href = currentPage.split("/", 1) + "/tracking/" + orderIdArray[orderIdArray.length - 1];
                     }
                 }
