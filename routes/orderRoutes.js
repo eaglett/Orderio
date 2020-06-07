@@ -162,6 +162,7 @@ router.post("/webhook", (req, res) => {
     switch (event.type) {
       case 'payment_intent.succeeded':
         const emails = event.receipt_email.split(';');
+        console.log(emails);
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
         nodeMailer.sendMail(emails[0], customerMessage);
         const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
