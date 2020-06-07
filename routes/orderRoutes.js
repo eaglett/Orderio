@@ -3,6 +3,7 @@ const router = require('express').Router();
 /* Set up Stripe & verification */
 const Stripe = require('../config/stripe.js');
 const Verification = require('../config/verification.js');
+const keys = require('../config/keys.js');
 
 // Use body-parser to retrieve the raw body as a buffer
 const bodyParser = require('body-parser');
@@ -152,7 +153,7 @@ router.get("/paymentSecret", async (req, res) => {
 
 // Match the raw body to content type application/json
 router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) => {
-    const endpointSecret = 'whsec_...';
+    const endpointSecret = keys.webhookEndpointSecret;
     const sig = request.headers['stripe-signature'];
 
     let event;
