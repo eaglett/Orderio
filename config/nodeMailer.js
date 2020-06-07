@@ -26,6 +26,17 @@ const generatePasswordMessage = (email, hash) => {
   return message;
 };
 
+const generateOrderConfirmationMessage = (orderId) => {
+  let message = strings.orderConfirmation + orderId + strings.trackingLink;
+  return message
+};
+
+const generateBusinessOrderMessage = (orderId) => {
+  //generates message that delivers the order to the restaurant
+  let message = strings.businessOrder + strings.businessOrderLink + orderId;
+  return message
+}
+
 const sendMail = (email, message) => {
 
   let mailOptions = {
@@ -47,3 +58,5 @@ const sendMail = (email, message) => {
 exports.sendMail = sendMail;
 exports.generateValidationMessage = generateValidationMessage;
 exports.generatePasswordMessage = generatePasswordMessage;
+exports.generateOrderConfirmationMessage = generateOrderConfirmationMessage;
+exports.generateBusinessOrderMessage = generateBusinessOrderMessage;

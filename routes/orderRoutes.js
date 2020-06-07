@@ -4,8 +4,10 @@ const router = require('express').Router();
 const Stripe = require('../config/stripe.js');
 const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
 const Verification = require('../config/verification.js');
-const keys = require('../config/keys.js');
 const request = require('request');
+
+/* Set up node mailer */
+const nodeMailer = require('../config/nodeMailer.js');
 
 // Use body-parser to retrieve the raw body as a buffer
 const bodyParser = require('body-parser');
@@ -153,25 +155,20 @@ router.get("/paymentSecret", async (req, res) => {
 });
 
 // Match the raw body to content type application/json
-router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) => {
+router.post("/webhook", (req, res) => {
     let event = req.body;
-    
+
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
-        const paymentIntent = event.data.object;
-        console.log('PaymentIntent was successful!');
+        const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
+        nodeMailer.sendMail(req.session.authorization.user, customerMessage);
+        console.log("payemnt intent successful");
         break;
-      case 'payment_method.attached':
-        const paymentMethod = event.data.object;
-        console.log('PaymentMethod was attached to a Customer!');
-        break;
-      // ... handle other event types
       default:
         // Unexpected event type
         return res.status(400).end();
     }
-  
     // Return a 200 response to acknowledge receipt of the event
     res.json({received: true});
   });
