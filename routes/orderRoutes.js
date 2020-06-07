@@ -149,7 +149,7 @@ router.get("/paymentSecret", async (req, res) => {
     }
     const price = String(orders[0].price) + "00"
     
-    const intent = await stripe.createPaymentIntent(price, "anejaorlic@gmail.com", "node.aneja@gmail.com");
+    const intent = await Stripe.createPaymentIntent(price, "anejaorlic@gmail.com", "node.aneja@gmail.com");
     req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
     return res.json({client_secret: intent.client_secret});
 });
@@ -162,9 +162,9 @@ router.post("/webhook", (req, res) => {
     switch (event.type) {
       case 'payment_intent.succeeded':
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
-        nodeMailer.sendMail(event.email, customerMessage);
+        nodeMailer.sendMail(event.billing_details.email, customerMessage);
         const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
-        nodeMailer.sendMail(event.destination, businessMessage);
+        nodeMailer.sendMail(event.receipt_email, businessMessage);
         console.log("payemnt intent successful");
         break;
         //return res.redirect("http://34.207.121.253/tracking");
