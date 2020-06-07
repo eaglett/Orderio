@@ -150,7 +150,7 @@ router.get("/paymentSecret", async (req, res) => {
     const price = String(orders[0].price) + "00"
     
     const intent = await stripe.createPaymentIntent(price, "anejaorlic@gmail.com", "node.aneja@gmail.com");
-    req.session.paymentKey = Verification.generateHash(intent.client_secret);
+    req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
     return res.json({client_secret: intent.client_secret});
 });
 
