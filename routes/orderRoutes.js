@@ -149,7 +149,7 @@ router.get("/paymentSecret", async (req, res) => {
     }
     const price = String(orders[0].price) + "00"
     
-    const intent = await Stripe.createPaymentIntent(price);
+    const intent = await stripe.createPaymentIntent(price, "anejaorlic@gmail.com", "node.aneja@gmail.com");
     req.session.paymentKey = Verification.generateHash(intent.client_secret);
     return res.json({client_secret: intent.client_secret});
 });
@@ -161,10 +161,13 @@ router.post("/webhook", (req, res) => {
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
-        /*const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
-        nodeMailer.sendMail(req.session.authorization.user, customerMessage);*/
+        const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
+        nodeMailer.sendMail(event.email, customerMessage);
+        const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
+        nodeMailer.sendMail(event.destination, businessMessage);
         console.log("payemnt intent successful");
-        return res.redirect("http://34.207.121.253/tracking");
+        break;
+        //return res.redirect("http://34.207.121.253/tracking");
       default:
         // Unexpected event type
         return res.status(400).end();
