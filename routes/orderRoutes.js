@@ -4,6 +4,7 @@ const router = require('express').Router();
 const Stripe = require('../config/stripe.js');
 const Verification = require('../config/verification.js');
 const keys = require('../config/keys.js');
+const request = require('request');
 
 // Use body-parser to retrieve the raw body as a buffer
 const bodyParser = require('body-parser');
