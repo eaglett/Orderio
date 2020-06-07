@@ -120,12 +120,7 @@
       
     </script>
 
-
-
-
     <script src="https://js.stripe.com/v3/"></script>
-
-
 
     <script>
         var stripe = Stripe('pk_test_J7K7qwv3vmwybGmXjgMc5WTR00ny0Awzem');
@@ -172,7 +167,8 @@
                 // The payment has been processed!
                     if (result.paymentIntent.status === 'succeeded') {
                         const currentPage = document.location.href;
-                        window.location.href = currentPage.split("/", 1) + "/tracking";
+                        const orderIdArray = currentPage.split("/");
+                        window.location.href = currentPage.split("/", 1) + "/tracking/" + orderIdArray[orderIdArray.length - 1];
                     }
                 }
             });
