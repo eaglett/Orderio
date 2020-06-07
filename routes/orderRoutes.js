@@ -2,8 +2,8 @@ const router = require('express').Router();
 
 /* Set up Stripe & verification */
 const Stripe = require('../config/stripe.js');
-const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
-const Verification = require('../config/verification.js');
+//const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
+//const Verification = require('../config/verification.js');
 const request = require('request');
 
 /* Set up node mailer */
@@ -56,9 +56,6 @@ router.get("/order/:id", (req, res) => { //id is business id
 
 router.post("/order/:id", async(req, res) => {
     //create order without price 
-    //get order items
-    //insert items and add price
-
     let order;
     try {
         const user = await User.query()
@@ -72,10 +69,11 @@ router.post("/order/:id", async(req, res) => {
         console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
-
+    //get order items
     const basket = req.body;
     let price = 0;
     for (let item in basket){
+        //insert items and add price
         try {
             const dish = await Dish.query()
                                    .select('id', 'price')
@@ -152,10 +150,9 @@ router.get("/paymentSecret", async (req, res) => {
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database"});
     }
-    const price = String(orders[0].price) + "00"
+    const price = String(orders[0].price) + "00";
     
     const intent = await Stripe.createPaymentIntent(price, req.session.order, req.session.authorization.user, businesses[0].email);
-    //req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
     return res.json({client_secret: intent.client_secret});
 });
 
@@ -166,7 +163,6 @@ router.post("/webhook", (req, res) => {
     // Handle the event
     if( event.type === 'payment_intent.succeeded'){   
         const description = event.data.object.description.split(";");
-        console.log(description);
 
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(description[0]);
         nodeMailer.sendMail(description[1], customerMessage);
