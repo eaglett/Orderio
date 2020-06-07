@@ -164,7 +164,7 @@ router.post("/webhook", (req, res) => {
         /*const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
         nodeMailer.sendMail(req.session.authorization.user, customerMessage);*/
         console.log("payemnt intent successful");
-        return res.redirect("/tracking");
+        return res.redirect("http://34.207.121.253/tracking");
       default:
         // Unexpected event type
         return res.status(400).end();
