@@ -7,7 +7,7 @@ const createPaymentIntent = async (price, customerEmail, businessEmail) => {
         amount: price,
         currency: 'dkk',
         payment_method_types: ['card'],
-        billing_details: {email: "customerEmail"},
+        on_behalf_of: customerEmail,
         receipt_email: businessEmail,
         metadata: {integration_check: 'accept_a_payment'},
       });
