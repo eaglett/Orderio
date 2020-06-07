@@ -161,10 +161,10 @@ router.post("/webhook", (req, res) => {
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
-        const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
-        nodeMailer.sendMail(req.session.authorization.user, customerMessage);
+        /*const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
+        nodeMailer.sendMail(req.session.authorization.user, customerMessage);*/
         console.log("payemnt intent successful");
-        break;
+        return res.redirect("/tracking");
       default:
         // Unexpected event type
         return res.status(400).end();
