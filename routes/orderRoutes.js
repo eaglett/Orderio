@@ -154,7 +154,7 @@ router.get("/paymentSecret", async (req, res) => {
     }
     const price = String(orders[0].price) + "00"
     
-    const intent = await Stripe.createPaymentIntent(price, req.session.order, req.session.authorization.user, businesses[0]);
+    const intent = await Stripe.createPaymentIntent(price, req.session.order, req.session.authorization.user, businesses[0].email);
     //req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
     return res.json({client_secret: intent.client_secret});
 });
@@ -166,6 +166,7 @@ router.post("/webhook", (req, res) => {
     // Handle the event
     if( event.type === 'payment_intent.succeeded'){   
         const description = event.data.object.description.split(";");
+        console.log(description);
 
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(description[0]);
         nodeMailer.sendMail(description[1], customerMessage);
