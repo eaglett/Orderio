@@ -161,13 +161,11 @@ router.post("/webhook", (req, res) => {
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
-        console.log("customer", event.receipt_email)
-        console.log("business", event.metadata.business_email)
-        console.log("metadata", event.metadata)
+        const emails = event.receipt_email.split(';');
         const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
-        nodeMailer.sendMail(event.receipt_email, customerMessage);
+        nodeMailer.sendMail(emails[0], customerMessage);
         const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
-        nodeMailer.sendMail(event.metadata.business_email, businessMessage);
+        nodeMailer.sendMail(emails[1], businessMessage);
         console.log("payemnt intent successful");
         break;
         //return res.redirect("http://34.207.121.253/tracking");
