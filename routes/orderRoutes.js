@@ -3,6 +3,7 @@ const router = require('express').Router();
 /* Set up Stripe & verification */
 const Stripe = require('../config/stripe.js');
 const Verification = require('../config/verification.js');
+
 // Use body-parser to retrieve the raw body as a buffer
 const bodyParser = require('body-parser');
 const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
@@ -134,7 +135,17 @@ router.get("/checkout/:orderId", (req, res) => {
 })
 
 router.get("/paymentSecret", async (req, res) => {
-    const intent = await Stripe.createPaymentIntent();
+    let orders
+    try {
+        orders = await Order.query()
+                                 .select('price')
+                                 .where({id: req.session.order});
+    } catch (error) {
+        return res.status(500).send({response: "Something went wrong with the database"});
+    }
+    const price = String(orders[0].price) + "00"
+    
+    const intent = await Stripe.createPaymentIntent(price);
     req.session.paymentKey = Verification.generateHash(intent.client_secret);
     return res.json({client_secret: intent.client_secret});
 });
