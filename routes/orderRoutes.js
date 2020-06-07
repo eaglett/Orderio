@@ -155,13 +155,7 @@ router.get("/paymentSecret", async (req, res) => {
 // Match the raw body to content type application/json
 router.post("/webhook",  bodyParser.raw({type: 'application/json'}), (req, res) => {
     let event = req.body;
-    /*console.log(req.body)
-    try {
-      event = JSON.parse(req.body);
-    } catch (err) {
-      res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-    console.log(event)*/
+    
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
