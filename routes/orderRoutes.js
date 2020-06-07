@@ -140,17 +140,22 @@ router.get("/checkout/:orderId", (req, res) => {
 
 router.get("/paymentSecret", async (req, res) => {
     let orders
+    let businesses
     try {
         orders = await Order.query()
                                  .select('price')
                                  .where({id: req.session.order});
+        businesses = await User.query()
+                               .join('orders', 'users.id', 'orders.businessId')
+                               .select('email')
+                               .where({'orders.id': req.session.order});
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database"});
     }
     const price = String(orders[0].price) + "00"
     
-    const intent = await Stripe.createPaymentIntent(price, "anejaorlic@gmail.com", "node.aneja@gmail.com");
-    req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
+    const intent = await Stripe.createPaymentIntent(price, req.session.order, req.session.authorization.user, businesses[0]);
+    //req.session.paymentKey = Verification.generateHash(intent.client_secret); // jel name ovo treba??
     return res.json({client_secret: intent.client_secret});
 });
 
@@ -160,13 +165,13 @@ router.post("/webhook", (req, res) => {
 
     // Handle the event
     if( event.type === 'payment_intent.succeeded'){   
-        const emails = event.data.object.description.split(";");
+        const description = event.data.object.description.split(";");
 
-        const customerMessage = nodeMailer.generateOrderConfirmationMessage(req.session.order);
-        nodeMailer.sendMail(emails[0], customerMessage);
-        
-        const businessMessage = nodeMailer.generateBusinessOrderMessage(req.session.order);
-        nodeMailer.sendMail(emails[1], businessMessage);
+        const customerMessage = nodeMailer.generateOrderConfirmationMessage(description[0]);
+        nodeMailer.sendMail(description[1], customerMessage);
+
+        const businessMessage = nodeMailer.generateBusinessOrderMessage(description[0]);
+        nodeMailer.sendMail(description[2], businessMessage);
     } else{
         // Unexpected event type
         return res.status(400).end();
@@ -177,7 +182,6 @@ router.post("/webhook", (req, res) => {
 
   router.get("/tracking/:orderId", (req, res) => {
     
-    //if (paymentVerified){}
 });
 
 
