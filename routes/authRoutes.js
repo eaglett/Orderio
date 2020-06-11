@@ -32,6 +32,10 @@ router.get("/getUser", (req, res) => {
     return res.send({response: req.session.authorization});
 });
 
+router.get("/getUserType", async (req, res) => {
+
+});
+
 router.get("/signup", (req, res) => {
     if(req.session.authorization !== undefined){
         //user is already logged in

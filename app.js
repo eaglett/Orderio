@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 
-//app.use(express.json());
+/* Set up socket.io */
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 /* Setup session */
 const session = require('express-session');
@@ -47,10 +49,15 @@ app.use(menuRoutes);
 app.use(orderRoutes);
 
 
+/* Adding socket connections */
+io.on('connection', socket => {
+    
+});
+
 
 const port = process.env.PORT ? process.env.PORT : 3000;
 
-const server = app.listen(port, (error) => {
+server.listen(port, (error) => {
     if (error) {
         console.log("Error starting the server");
     }

@@ -1,0 +1,38 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js" integrity="sha256-Dul4c09cdrWKXVtallPxF558lwxMwCC8dXJdZ0PVW54=" crossorigin="anonymous"></script>
+    
+    <div id="progress-container" style="justify-content: center;">
+        <h3 style="margin-left: 40%; margin-top: 3%;">Your order's status:</h3>
+        <div class="progress" style="margin-top: 3%; margin-left: 10%; margin-right: 10%;">
+            <div class="progress-bar bg-info" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div style="margin-top: 1%; margin-left: 10%; margin-right: 10%; display: flex; justify-content: space-between;">
+            <p>Ordered</p>
+            <p>Preparing</p>
+            <p>Delivering</p>
+            <p>Delivered</p>
+        </div>
+    </div>
+    <div id="restaurant-status" style="margin-top: 3%; margin-left: 10%; margin-right: 10%;">
+        <h3 id="update-status" aria-describedby="directions">Update order Status:</h3>
+        <small id="directions" aria-describedat="update-status">Select the option that describes the current status of the order:</small>
+        <button type="button" class="btn btn-outline-info">Preparing</button>
+        <button type="button" class="btn btn-outline-info">Delivering</button>
+        <button type="button" class="btn btn-outline-info">Delivered</button>
+    </div>
+
+    <script>
+        fetch("/getUser")
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.response)
+            if (data.response !== undefined){
+              let show = document.getElementById("restaurant-status").style.display = "block";
+            } else {
+              let hide = document.getElementById("restaurant-status").style.display = "none";
+        
+            }
+          });
+
+    </script>
+</body>
+</html>

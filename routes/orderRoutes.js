@@ -25,6 +25,7 @@ const path = require('path');
 const navbarPage = fs.readFileSync(path.join(__dirname, '../views', 'navbar.html'));
 const orderPage = fs.readFileSync(path.join(__dirname, '../views/order', 'order.html'));
 const checkoutPage = fs.readFileSync(path.join(__dirname, '../views/order', 'checkout.html'));
+const trackingPage = fs.readFileSync(path.join(__dirname, '../views/order', 'tracking.html'));
 
 /* Set up routes */
 router.get("/getCurrentOrder", (req, res) => {
@@ -178,7 +179,7 @@ router.post("/webhook", (req, res) => {
   });
 
   router.get("/tracking/:orderId", (req, res) => {
-    return res.send({response: "tracking"})
+    return res.send(navbarPage + trackingPage);
 });
 
 
