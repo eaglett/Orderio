@@ -33,7 +33,16 @@ router.get("/getUser", (req, res) => {
 });
 
 router.get("/getUserType", async (req, res) => {
-
+    try {
+        const users = await User.query()
+                                .join('roles', 'users.roleId', 'roles.id')
+                                .select('role')
+                                .where('email', req.session.authorization.user);
+        return res.send({response: users[0].role});
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({ response: "Something went wrong with the database" });
+    }
 });
 
 router.get("/signup", (req, res) => {

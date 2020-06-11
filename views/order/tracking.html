@@ -21,11 +21,10 @@
     </div>
 
     <script>
-        fetch("/getUser")
+        fetch("/getUserType")
           .then(response => response.json())
           .then(data => {
-            console.log(data.response)
-            if (data.response !== undefined){
+            if (data.response === 'BUSINESS'){
               let show = document.getElementById("restaurant-status").style.display = "block";
             } else {
               let hide = document.getElementById("restaurant-status").style.display = "none";
