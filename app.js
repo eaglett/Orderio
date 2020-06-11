@@ -50,8 +50,17 @@ app.use(orderRoutes);
 
 
 /* Adding socket connections */
-io.on('connection', socket => {
-    
+const nsp = io.of('/tracking/1');
+nsp.on('connection', socket => {
+    socket.on('restaurant-preparing', () => {
+        socket.emit('preparing');
+    });
+    socket.on('restaurant-delivering', () => {
+        socket.emit('delivering');
+    });
+    socket.on('restaurant-delivered', () => {
+        socket.emit('delivered');
+    });
 });
 
 

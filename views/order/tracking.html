@@ -3,7 +3,7 @@
     <div id="progress-container" style="justify-content: center;">
         <h3 style="margin-left: 40%; margin-top: 3%;">Your order's status:</h3>
         <div class="progress" style="margin-top: 3%; margin-left: 10%; margin-right: 10%;">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-info" id="progress-bar" role="progressbar" style="width: 2%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div style="margin-top: 1%; margin-left: 10%; margin-right: 10%; display: flex; justify-content: space-between;">
             <p>Ordered</p>
@@ -15,13 +15,13 @@
     <div id="restaurant-status" style="margin-top: 3%; margin-left: 10%; margin-right: 10%;">
         <h3 id="update-status" aria-describedby="directions">Update order Status:</h3>
         <small id="directions" aria-describedat="update-status">Select the option that describes the current status of the order:</small>
-        <button type="button" class="btn btn-outline-info">Preparing</button>
-        <button type="button" class="btn btn-outline-info">Delivering</button>
-        <button type="button" class="btn btn-outline-info">Delivered</button>
+        <button type="button" class="btn btn-outline-info" onclick="restaurantPreparing()">Preparing</button>
+        <button type="button" class="btn btn-outline-info" onclick="restaurantDelivering()">Delivering</button>
+        <button type="button" class="btn btn-outline-info" onclick="restaurantDelivered()">Delivered</button>
     </div>
 
     <script>
-        fetch("/getUserType")
+        /*fetch("/getUserType")
           .then(response => response.json())
           .then(data => {
             if (data.response === 'BUSINESS'){
@@ -30,6 +30,29 @@
               let hide = document.getElementById("restaurant-status").style.display = "none";
         
             }
+          });*/
+
+          const socket = io.connect("localhost:3000/tracking/1");
+
+          function restaurantPreparing() {
+              socket.emit("restaurant-preparing");
+          };
+          socket.on('preparing', () => {
+              document.getElementById("progress-bar").style.width = '34%';
+          });
+
+          function restaurantDelivering() {
+              socket.emit('restaurant-delivering');
+          };
+          socket.on('delivering', () => {
+            document.getElementById("progress-bar").style.width = '65%';
+          });
+
+          function restaurantDelivered() {
+              socket.emit('restaurant-delivered');
+          };
+          socket.on('delivered', () => {
+            document.getElementById("progress-bar").style.width = '100%';
           });
 
     </script>
