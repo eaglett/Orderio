@@ -51,20 +51,21 @@ app.use(orderRoutes);
 
 /* Adding socket connections */
 const nsp = io.of('/tracking');
-console.log('connect in func')
 nsp.on('connection', socket => {
+    let currentRoom;
     socket.on('join-room', (room) => {
         socket.join(room);
-        console.log('joining-room')
+        currentRoom = room;
     })
     socket.on('restaurant-preparing', () => {
-        socket.to(room).emit('preparing');
+        console.log('emit preparing')
+        socket.emit('preparing');
     });
     socket.on('restaurant-delivering', () => {
-        socket.to(room).emit('delivering');
+        socket.emit('delivering');
     });
     socket.on('restaurant-delivered', () => {
-        socket.to(room).emit('delivered');
+        socket.emit('delivered');
     });
 });
 
