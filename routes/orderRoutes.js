@@ -179,6 +179,11 @@ router.post("/webhook", (req, res) => {
     res.json({received: true});
   });
 
+  router.post("/tracking/:orderId", (req, res) => {
+      req.session.order = orderId;
+      return res.redirect("/tracking");
+  });
+
   router.get("/tracking", (req, res) => {
 
     return res.send(navbarPage + trackingPage);
