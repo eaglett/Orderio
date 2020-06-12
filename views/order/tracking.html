@@ -33,14 +33,13 @@
             }
           });*/
 
-          const socket = io.connect("52.91.147.8/tracking");
-
+          const socket = io.connect("localhost:3000/tracking");
+    
           fetch("/getCurrentOrder")
             .then(response => response.json())
             .then(data => {
                 let text = document.createTextNode('Order number: ' + data.response);
                 document.getElementById("order-number").appendChild(text);
-
                 socket.emit('join-room', data.response);
             })
 

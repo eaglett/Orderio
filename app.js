@@ -53,23 +53,25 @@ app.use(orderRoutes);
 const nsp = io.of('/tracking');
 nsp.on('connection', socket => {
     let currentRoom;
-    socket.on('join-room', (room) => {
-        socket.join(room);
+    socket.on('join-room', async(room) => {
+        console.log("room ", room)
+        await socket.join(room);
+        console.log(socket.id + ' ' + JSON.stringify(socket.rooms))
+        console.log('--------')
+        //console.log(io.sockets.adapter.rooms)
         currentRoom = room;
     })
     socket.on('restaurant-preparing', () => {
         console.log('emit preparing')
-        socket.emit('preparing');
+        io.of('/tracking').in(currentRoom).emit('preparing');
     });
     socket.on('restaurant-delivering', () => {
-        socket.emit('delivering');
+        io.of('/tracking').in(currentRoom).emit('delivering');
     });
     socket.on('restaurant-delivered', () => {
-        socket.emit('delivered');
+        io.of('/tracking').in(currentRoom).emit('delivered');
     });
 });
-
-
 
 
 const port = process.env.PORT ? process.env.PORT : 3000;
