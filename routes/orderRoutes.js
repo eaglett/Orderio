@@ -179,7 +179,7 @@ router.post("/webhook", (req, res) => {
     res.json({received: true});
   });
 
-  router.post("/tracking/:orderId", (req, res) => {
+  router.get("/tracking/:orderId", (req, res) => {
       req.session.order = orderId;
       return res.redirect("/tracking");
   });
