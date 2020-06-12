@@ -1,5 +1,6 @@
 const router = require('express').Router();
 
+
 /* Set up Stripe & verification */
 const Stripe = require('../config/stripe.js');
 //const stripe = require('stripe')('sk_test_45xGVr0LueUpfkjmW9KsN6QM008rLPZjLq');
@@ -178,7 +179,8 @@ router.post("/webhook", (req, res) => {
     res.json({received: true});
   });
 
-  router.get("/tracking/:orderId", (req, res) => {
+  router.get("/tracking", (req, res) => {
+
     return res.send(navbarPage + trackingPage);
 });
 

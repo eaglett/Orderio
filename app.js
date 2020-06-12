@@ -50,18 +50,25 @@ app.use(orderRoutes);
 
 
 /* Adding socket connections */
-const nsp = io.of('/tracking/1');
+const nsp = io.of('/tracking');
+console.log('connect in func')
 nsp.on('connection', socket => {
+    socket.on('join-room', (room) => {
+        socket.join(room);
+        console.log('joining-room')
+    })
     socket.on('restaurant-preparing', () => {
-        socket.emit('preparing');
+        socket.to(room).emit('preparing');
     });
     socket.on('restaurant-delivering', () => {
-        socket.emit('delivering');
+        socket.to(room).emit('delivering');
     });
     socket.on('restaurant-delivered', () => {
-        socket.emit('delivered');
+        socket.to(room).emit('delivered');
     });
 });
+
+
 
 
 const port = process.env.PORT ? process.env.PORT : 3000;
