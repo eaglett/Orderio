@@ -180,7 +180,7 @@ router.post("/webhook", (req, res) => {
   });
 
   router.get("/tracking/:orderId", (req, res) => {
-      req.session.order = orderId;
+      req.session.order = req.params.orderId;
       return res.redirect("/tracking");
   });
 
