@@ -7,5 +7,5 @@
     "orderConfirmation": "Thank you for your order!\nThe restaurant will start preparing your food shortly. Your order number is: ",
     "trackingLink": "\nYou can track status of your order on: http:/localhost:3000/tracking/",
     "businessOrder": "A customer has created an order from your restaurant. Click on the following link to see the order: ",
-    "businessOrderLink": "http://localhost:3000/prepareOrder/"
+    "businessOrderLink": "http://localhost:3000/tracking/"
 }

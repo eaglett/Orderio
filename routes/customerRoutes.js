@@ -23,7 +23,7 @@ router.get("/managepersonal", (req, res) => {
 router.post("/managepersonal", async (req, res) => {
     let change = {}
     for (let key in req.body) {
-        if (req.body[key] !== ''){
+        if (req.body[key] !== ''){ //geting the fields that were changed
             change[key] = req.body[key];
         }
     }
@@ -35,7 +35,7 @@ router.post("/managepersonal", async (req, res) => {
             const updated = await User.query()
                                       .where({id: currentUser[0].id})
                                       .update({'name': change['name']})
-            delete change['name'];
+            delete change['name']; //remove name as it has already been updated
         };
         if ( Object.keys(change).length > 0 ){
             const updated = await Address.query()

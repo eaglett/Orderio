@@ -44,11 +44,9 @@
             })
 
           function restaurantPreparing() {
-              console.log('emit restaurant-preparing')
               socket.emit("restaurant-preparing");
           };
           socket.on('preparing', () => {
-              console.log('recived preparing')
               document.getElementById("progress-bar").style.width = '34%';
           });
 

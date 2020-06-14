@@ -56,6 +56,7 @@ exports.up = function(knex) {
             table.foreign('business_id').references('users.id');
 
             table.integer('price').defaultTo(0);
+            table.string('status').defaultTo(null);
         })
         .createTable('ordered_items', (table) => {
             table.increments('id').notNullable();

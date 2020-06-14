@@ -166,7 +166,7 @@ router.post("/webhook", (req, res) => {
     if( event.type === 'payment_intent.succeeded'){   
         const description = event.data.object.description.split(";");
 
-        const customerMessage = nodeMailer.generateOrderConfirmationMessage(description[0]);
+        const customerMessage = nodeMailer.generateOrderConfirmationMessage(description[0]); //orderId
         nodeMailer.sendMail(description[1], customerMessage);
 
         const businessMessage = nodeMailer.generateBusinessOrderMessage(description[0]);

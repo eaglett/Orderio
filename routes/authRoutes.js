@@ -62,10 +62,8 @@ router.post("/signup", async (req, res) => {
 
     const {type, name, email, password, passwordRepeat, street, number, additional, postNb, city, country} = req.body;
     const isPasswordTheSame = password === passwordRepeat;
-    //const isFieldMissing =  name && email && password && passwordRepeat && street && number && postNb && city && country;
 
     if( isPasswordTheSame ){
-        //console.log("field", isFieldMissing)
         // password requirements
         if (password.length < 8) {
             return res.status(400).send({ response: "Password does not fulfill the requirements. Enter a password longer than 8 chars." });
@@ -102,7 +100,6 @@ router.post("/signup", async (req, res) => {
                     return res.send({ response: `User has been created. Check your email to verify the account.` });
                 }
             } catch (error) {
-                console.log(error)
                 return res.status(500).send({ response: "Something went wrong with the database" });
             }
         }
@@ -127,9 +124,6 @@ router.post("/login", async (req, res) => {
     // 2. check for a user match in the database
     // 3. bcrypt compare
     // 4. sessions
-
-    //req.session.authorization.push()
-
     const { email, password } = req.body;
 
     if (email && password){
@@ -161,7 +155,6 @@ router.post("/login", async (req, res) => {
     }
 });
 
-//change to post
 router.get("/logout", (req, res) => {
     //destroy the session
     req.session.destroy(function(error) {

@@ -6,7 +6,7 @@ const strings = require('./strings.json');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: keys.email,
+    user: keys.serverEmail,
     pass: keys.emailAppPass
   },
   tls: {
@@ -40,9 +40,9 @@ const generateBusinessOrderMessage = (orderId) => {
 const sendMail = (email, message) => {
 
   let mailOptions = {
-    from: 'node.aneja@gmail.com',
+    from: keys.serverEmail,
     to: email,
-    subject: 'Orderio welcome',
+    subject: 'Orderio food service',
     text: message
   };
   transporter.sendMail(mailOptions, function(error, info){

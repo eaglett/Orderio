@@ -36,7 +36,6 @@ router.get("/getCurrentBusiness", async (req, res) => {
 
 router.get("/browse", (req, res) => {  
     return res.send(navbarPage + browsePage);
-    
 });
 
 router.get("/managebusiness", (req, res) => {
@@ -51,7 +50,7 @@ router.post("/managebusiness", async (req, res) => {
     let change = {}
     for (let key in req.body) {
         if (req.body[key] !== ''){
-            change[key] = req.body[key];
+            change[key] = req.body[key]; //we got fields that were inputed
         }
     }
     try {
@@ -62,7 +61,7 @@ router.post("/managebusiness", async (req, res) => {
             const updated = await User.query()
                                       .where({id: currentUser[0].id})
                                       .update({'name': change['name']})
-            delete change['name'];
+            delete change['name']; //remove name as it has already been updated
         };
         if ( Object.keys(change).length > 0 ){
             const updated = await Address.query()
@@ -70,12 +69,10 @@ router.post("/managebusiness", async (req, res) => {
                                          .update(change);
         }
         return res.send(200).send({response: "Your information is updated"});
-        
     } catch (error) {
         console.log(error);
         return res.status(500).send({response: "Something went wrong with the database."});
     }
-
 });
 
 module.exports = router;

@@ -35,7 +35,6 @@ router.get("/manage",  async (req, res) => {
             return res.status(403).send({response: "You do not have access."});
         }
     } catch(error){
-        console.log(error)
         return res.status(500).send({ response: "Something went wrong with the database" });
     }
 });
@@ -61,7 +60,6 @@ router.post("/requestNewPassword", async (req, res) => {
             return res.send({response: "Email has been sent. Follow the link to reset the password."});
         }
     } catch(error){
-        console.log(error);
         return res.status(500).send({ response: "Something went wrong with the database" });
     }
 });
@@ -117,7 +115,6 @@ router.get("/currentUserId", async (req, res) => {
                                    .where({email: req.session.authorization.user});
             return res.send({response: user[0].id});
         } catch(error){
-            console.log(error)
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
     } else {
@@ -134,7 +131,6 @@ router.get("/getUserAddress", async (req, res) => {
                                     .where({email: req.session.authorization.user});
             return res.send({response: user[0]});
         } catch (error) {
-            console.log(error)
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
     } else {
@@ -151,7 +147,6 @@ router.get("/getUserData", async (req, res) => {
                                     .where({email: req.session.authorization.user});
             return res.send(user[0]);
         } catch (error) {
-            console.log(error)
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
     } else {

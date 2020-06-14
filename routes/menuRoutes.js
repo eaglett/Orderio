@@ -24,7 +24,6 @@ router.get("/getMenu/:id", async (req, res) => { //business id
                                      .where({businessId: req.params.id});
             return res.send({response: dishes});
         } catch(error){
-            console.log(error);
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
     } else {
@@ -39,7 +38,6 @@ router.get("/getDish/:id", async (req, res) => {
                                .where({'id': req.params.id});
         return res.send(dish[0]);
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
 });
@@ -72,7 +70,6 @@ router.post("/addDish", async(req, res) => {
             
             return res.status(200).redirect("/menu");
         } catch(error){
-            console.log(error)
             return res.status(500).send({response: "Something went wrong with the database"});
         }
     } else {
@@ -89,7 +86,6 @@ router.get("/editDish/:id", async (req, res) => {
                             .where({'dishes.id': req.params.id});
         
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
     //check if logged in user is the same user who is dish owner
@@ -138,7 +134,6 @@ router.post("/deleteDish/:id", async (req, res) => {
                                    .del();
             return res.status(200).redirect("/menu")
         } catch (error) {
-            console.log(error)
             return res.status(500).send({response: "Something went wrong with the database"});
         };
     } else {

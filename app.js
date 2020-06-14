@@ -62,7 +62,6 @@ nsp.on('connection', socket => {
         currentRoom = room;
     })
     socket.on('restaurant-preparing', () => {
-        console.log('emit preparing')
         io.of('/tracking').in(currentRoom).emit('preparing');
     });
     socket.on('restaurant-delivering', () => {
