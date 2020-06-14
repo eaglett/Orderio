@@ -29,8 +29,12 @@ const checkoutPage = fs.readFileSync(path.join(__dirname, '../views/order', 'che
 const trackingPage = fs.readFileSync(path.join(__dirname, '../views/order', 'tracking.html'));
 
 /* Set up routes */
-router.get("/getCurrentOrder", (req, res) => {
-    return res.send({response: req.session.order});
+router.get("/getCurrentOrder", async (req, res) => {
+    const orders = await Order.query()
+                              .select('id', 'status')
+                              .where('id', req.session.order);
+
+    return res.send({response: orders[0]});
 });
 
 router.get("/getOrder/:id", async (req, res) => {

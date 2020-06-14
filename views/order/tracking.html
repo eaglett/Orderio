@@ -22,7 +22,7 @@
     </div>
 
     <script>
-        /*fetch("/getUserType")
+        fetch("/getUserType")
           .then(response => response.json())
           .then(data => {
             if (data.response === 'BUSINESS'){
@@ -31,16 +31,29 @@
               let hide = document.getElementById("restaurant-status").style.display = "none";
         
             }
-          });*/
+          });
 
           const socket = io.connect("localhost:3000/tracking");
     
           fetch("/getCurrentOrder")
             .then(response => response.json())
             .then(data => {
-                let text = document.createTextNode('Order number: ' + data.response);
+                let text = document.createTextNode('Order number: ' + data.response.id);
                 document.getElementById("order-number").appendChild(text);
-                socket.emit('join-room', data.response);
+
+                switch(data.response.status) {
+                  case "preparing":
+                    document.getElementById("progress-bar").style.width = '34%';
+                    break;
+                  case "delivering":
+                    document.getElementById("progress-bar").style.width = '65%';
+                    break;
+                  case "delivered":
+                    document.getElementById("progress-bar").style.width = '100%';
+                    break;
+                }
+
+                socket.emit('join-room', data.response.id);
             })
 
           function restaurantPreparing() {

@@ -48,26 +48,40 @@ app.use(userRoutes);
 app.use(menuRoutes);
 app.use(orderRoutes);
 
+/* Adding model for use */
+const Order = require('./models/Order.js');
+
+const modifyOrder = async (orderId, status) => {
+    try {
+        const orders = await Order.query()
+                            .where({'id': orderId})
+                            .update({'status': status});
+        return orders;
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+ 
+};
 
 /* Adding socket connections */
 const nsp = io.of('/tracking');
 nsp.on('connection', socket => {
-    let currentRoom;
+    let currentRoom; //current room is also order id
     socket.on('join-room', async(room) => {
-        console.log("room ", room)
         await socket.join(room);
-        console.log(socket.id + ' ' + JSON.stringify(socket.rooms))
-        console.log('--------')
-        //console.log(io.sockets.adapter.rooms)
         currentRoom = room;
     })
     socket.on('restaurant-preparing', () => {
+        modifyOrder(currentRoom, "preparing");
         io.of('/tracking').in(currentRoom).emit('preparing');
     });
     socket.on('restaurant-delivering', () => {
+        modifyOrder(currentRoom, "delivering");
         io.of('/tracking').in(currentRoom).emit('delivering');
     });
     socket.on('restaurant-delivered', () => {
+        modifyOrder(currentRoom, "delivered");
         io.of('/tracking').in(currentRoom).emit('delivered');
     });
 });
