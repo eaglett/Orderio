@@ -183,6 +183,7 @@ router.post("/webhook", (req, res) => {
 
   router.get("/tracking/:orderId", (req, res) => {
       req.session.order = req.params.orderId;
+      console.log(req.params.orderId)
       return res.redirect("/tracking");
   });
 

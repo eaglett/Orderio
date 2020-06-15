@@ -38,17 +38,21 @@
           fetch("/getCurrentOrder")
             .then(response => response.json())
             .then(data => {
+                console.log(data.response.id && data.response.status)
                 let text = document.createTextNode('Order number: ' + data.response.id);
                 document.getElementById("order-number").appendChild(text);
 
                 switch(data.response.status) {
                   case "preparing":
+                    console.log("preparing setting up")
                     document.getElementById("progress-bar").style.width = '34%';
                     break;
                   case "delivering":
+                    console.log("delivering setting up")
                     document.getElementById("progress-bar").style.width = '65%';
                     break;
                   case "delivered":
+                    console.log("delivered setting up")
                     document.getElementById("progress-bar").style.width = '100%';
                     break;
                 }

@@ -56,8 +56,10 @@ const modifyOrder = async (orderId, status) => {
         const orders = await Order.query()
                             .where({'id': orderId})
                             .update({'status': status});
+        console.log()
         return orders;
     } catch (error) {
+        console.log(error)
         return false
     }
 };
