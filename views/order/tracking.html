@@ -33,7 +33,7 @@
             }
           });
 
-          const socket = io.connect("localhost:3000/tracking");
+          const socket = io.connect("http://54.146.67.92/tracking");
     
           fetch("/getCurrentOrder")
             .then(response => response.json())
