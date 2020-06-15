@@ -68,7 +68,8 @@ router.post("/managebusiness", async (req, res) => {
                                          .where({id: currentUser[0].addressId})
                                          .update(change);
         }
-        return res.send(200).send({response: "Your information is updated"});
+        return res.redirect("/manageBusiness");
+        //return res.send(200).send({response: "Your information is updated"});
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database."});
     }

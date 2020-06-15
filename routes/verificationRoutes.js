@@ -20,7 +20,8 @@ router.get("/verification/:email&:verification", async (req, res) => {
     if (validated) {
         try{
             await User.query().patch({ active: 1 }).where({ email: req.params.email });
-            return res.send({ response: "Your account is verified. You can log in now."})
+            //return res.send({ response: "Your account is verified. You can log in now."})
+            return res.redirect("/login");
         } catch (error){
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
