@@ -92,7 +92,8 @@ router.post("/passwordReset/:email&:verification", async (req, res) => {
                     const user = await User.query()
                                            .patch({password: hash})
                                            .where({email: req.params.email});
-                    return res.send({response: "Password changed."});
+                    //return res.send({response: "Password changed."});
+                    return res.redirect("/login");
                 });           
             } else if (newPassword && newPasswordRepeat && !isPasswordTheSame) {
                 return res.status(400).send({ response: "Passwords do not match. Fields: password and passwordRepeat" });
