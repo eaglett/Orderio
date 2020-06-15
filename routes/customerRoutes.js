@@ -38,13 +38,15 @@ router.post("/managepersonal", async (req, res) => {
             delete change['name']; //remove name as it has already been updated
         };
         if ( Object.keys(change).length > 0 ){
+            console.log(change)
             const updated = await Address.query()
                                          .where({id: currentUser[0].addressId})
                                          .update(change);
         }
-        return res.send(200).send({response: "Your information is updated"});
-    
+        return res.redirect("/managePersonal");
+        //return res.status(200).send({response: "Your information is updated"});
     } catch (error) {
+        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database."});
     }
 });
