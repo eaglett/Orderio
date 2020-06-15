@@ -1,6 +1,6 @@
 module.exports = {
     database: 'orderio',
     user:     'root',
-    password: 'root', //'Orderioadmin2020!',
+    password: 'Orderioadmin2020!', //'Orderioadmin2020!',
 }
 
