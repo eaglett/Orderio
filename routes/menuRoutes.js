@@ -3,11 +3,12 @@ const router = require('express').Router();
 /* Set up models */
 const User = require('../models/User.js');
 const Dish = require('../models/Dish.js');
-
+const ordered_item = require('../models/Ordered_item.js');
 
 /* Add pages */
 const fs = require('fs');
 const path = require('path');
+const Ordered_item = require('../models/Ordered_item.js');
 
 const navbarPage = fs.readFileSync(path.join(__dirname, '../views/', 'navbar.html'));
 const menuPage = fs.readFileSync(path.join(__dirname, '../views/business', 'menu.html'));
@@ -121,7 +122,7 @@ router.post("/deleteDish/:id", async (req, res) => {
         user = await User.query()
                             .join('dishes', 'users.id', 'dishes.businessId')
                             .select('email')
-                            .where({'dish.id': req.params.id});
+                            .where({'dishes.id': req.params.id});
         
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database"});
@@ -129,6 +130,9 @@ router.post("/deleteDish/:id", async (req, res) => {
     //check if logged in user is the same user who is dish owner
     if(req.session.authorization !== undefined && user[0].email === req.session.authorization.user){
         try {
+            const ordered_items = await Ordered_item.query()
+                                                    .where({dishId: req.params.id})
+                                                    .del();
             const dish = await Dish.query()
                                    .where({id: req.params.id})
                                    .del();

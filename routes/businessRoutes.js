@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 /* Set up models */
 const User = require('../models/User.js');
+const Address = require('../models/Address.js');
 
 /* Add pages */
 const fs = require('fs');

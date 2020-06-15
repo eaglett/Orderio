@@ -112,13 +112,13 @@ router.get("/order/:orderId/delete/:dishId", async (req, res) => {
                             .join('orders', 'users.id', 'orders.customerId')
                             .select('email')
                             .where({'orders.id': req.params.orderId});
-        
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database"});
     }
     //check if logged in user is the same user who is order owner
     if(req.session.authorization !== undefined && user[0].email === req.session.authorization.user){
         try {
+            console.log(req.params.orderId)
             const ordered_items = await Ordered_item.query()
                                                     .where({orderId: req.params.orderId, dishId: req.params.dishId})
                                                     .del();

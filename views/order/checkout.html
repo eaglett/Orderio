@@ -73,7 +73,7 @@
                 let del = document.createElement("a");
                 del.classList.add("btn");
                 del.classList.add("btn-danger");
-                del.href = "/order/" + order.response + "/delete/" + el.id // /order/:orderId/delete/:dishId -> deletes dish from the order
+                del.href = "/order/" + order.response.id + "/delete/" + el.id // /order/:orderId/delete/:dishId -> deletes dish from the order
                                                                             // redirect na istu stranicu opet, updatean order
                 del.text = "Remove";
                 rightCol.appendChild(del);
