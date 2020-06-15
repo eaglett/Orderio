@@ -1,5 +1,4 @@
-    <div id="root" style="display: flex;"></div>
-    
+    <div id="root" style="display: flex; margin: 1.5em;"></div>
 
     <script>
         fetch('/getbusiness')
@@ -10,7 +9,9 @@
             data["response"].map( i => {
                 let outerDiv = document.createElement("div");
                 outerDiv.classList.add("card");
-                outerDiv.style.width = "18rem";
+                outerDiv.style.width = "18em";
+                outerDiv.style.margin = "0.5em";
+                outerDiv.style.background = "#F1F0F0";
                 let innerDiv = document.createElement("div");
                 innerDiv.classList.add("card-body");
                 let title = document.createElement("h5");
