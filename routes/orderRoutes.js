@@ -30,11 +30,16 @@ const trackingPage = fs.readFileSync(path.join(__dirname, '../views/order', 'tra
 
 /* Set up routes */
 router.get("/getCurrentOrder", async (req, res) => {
-    const orders = await Order.query()
+    try {
+        const orders = await Order.query()
                               .select('id', 'status')
                               .where('id', req.session.order);
-
-    return res.send({response: orders[0]});
+        console.log(req.session.order)
+        console.log(orders[0])
+        return res.send({response: orders[0]});
+    } catch (error) {
+        return res.status(500).send({response: "Something went wrong with the database"});
+    }
 });
 
 router.get("/getOrder/:id", async (req, res) => {
