@@ -18,7 +18,6 @@
         
     const renderMenu = (business, data) => {
         let form = document.createElement("form");
-        console.log(business);
         form.action = "/order/" + business.response.id;
         let order = document.createElement("input");
         order.classList.add("btn");

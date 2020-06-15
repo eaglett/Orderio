@@ -40,7 +40,6 @@ router.get("/getUserType", async (req, res) => {
                                 .where('email', req.session.authorization.user);
         return res.send({response: users[0].role});
     } catch (error) {
-        console.log(error)
         return res.status(500).send({ response: "Something went wrong with the database" });
     }
 });
@@ -147,7 +146,6 @@ router.post("/login", async (req, res) => {
                 return res.status(401).send({ response: "Authentication error. User with that username doesn't exist." });
             }
         } catch (error) {
-            console.log(error)
             return res.status(500).send({ response: "Something went wrong with the database" });
         }
     } else {

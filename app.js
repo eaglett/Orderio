@@ -58,10 +58,8 @@ const modifyOrder = async (orderId, status) => {
                             .update({'status': status});
         return orders;
     } catch (error) {
-        console.log(error)
         return false
     }
- 
 };
 
 /* Adding socket connections */

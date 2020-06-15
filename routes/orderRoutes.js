@@ -34,8 +34,6 @@ router.get("/getCurrentOrder", async (req, res) => {
         const orders = await Order.query()
                               .select('id', 'status')
                               .where('id', req.session.order);
-        console.log(req.session.order)
-        console.log(orders[0])
         return res.send({response: orders[0]});
     } catch (error) {
         return res.status(500).send({response: "Something went wrong with the database"});
@@ -50,7 +48,6 @@ router.get("/getOrder/:id", async (req, res) => {
                                                 .where({orderId: req.params.id});
         return res.send({response: ordered_items});
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
 });
@@ -61,8 +58,7 @@ router.get("/order/:id", (req, res) => { //id is business id
         return res.send(navbarPage + orderPage);
     } else {
         return res.redirect("/login");
-    };
-    
+    }; 
 });
 
 router.post("/order/:id", async(req, res) => {
@@ -77,7 +73,6 @@ router.post("/order/:id", async(req, res) => {
             businessId: req.params.id
         });
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
     //get order items
@@ -96,7 +91,6 @@ router.post("/order/:id", async(req, res) => {
 
             price += dish[0].price;
         } catch (error) {
-            console.log(error)
             return res.status(500).send({response: "Something went wrong with the database"});
         }
     }
@@ -107,7 +101,6 @@ router.post("/order/:id", async(req, res) => {
                            .update({price});
         return res.redirect("/checkout/" + orderId);
     } catch (error) {
-        console.log(error)
         return res.status(500).send({response: "Something went wrong with the database"});
     }
 });

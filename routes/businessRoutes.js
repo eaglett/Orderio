@@ -70,7 +70,6 @@ router.post("/managebusiness", async (req, res) => {
         }
         return res.send(200).send({response: "Your information is updated"});
     } catch (error) {
-        console.log(error);
         return res.status(500).send({response: "Something went wrong with the database."});
     }
 });
