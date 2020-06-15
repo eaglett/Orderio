@@ -1,4 +1,8 @@
 module.exports = {
     sessionSecret : "thisIsSessionSecret",
-    emailSecret : "thisIsEmailSecretKey"
+    verificationSecret : "thisIsEmailSecretKey",
+    stripeSecret: "thisIsStripeSecret",
+    serverEmail: "serversEmail",
+    emailAppPass: "emailAppPass",
+    stripeClientSecret: "stripeClientSecret",
 }
