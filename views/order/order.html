@@ -1,8 +1,8 @@
-<h3 id="title"></h3> <!--dynamically set -->
-<div id="root">
+<div style="margin: 2em;">
+    <h3 id="title"></h3> <!--dynamically set -->
+    <div id="root">
+    </div>
 </div>
-
-
 
 <script>
     fetch("/getCurrentBusiness")
@@ -19,6 +19,7 @@
     const renderMenu = (business, data) => {
         let form = document.createElement("form");
         form.action = "/order/" + business.response.id;
+        form.style.margin = "2em"
         let order = document.createElement("input");
         order.classList.add("btn");
         order.classList.add("btn-primary");
