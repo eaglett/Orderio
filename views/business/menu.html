@@ -1,9 +1,12 @@
+<div style="margin: 2em;">
     <h3>Your menu:</h3>
-    <a href="/addDish" class="btn btn-primary">Add a dish</a>
+    <a href="/addDish" class="btn btn-primary" style="margin: 0.7em;">Add a dish</a>
     <div id="root">
     </div>
+</div>
+    
 
-    <script>
+    <script> 
         fetch("/currentUserId")
             .then(response => response.json())
             .then(data => fetch("/getMenu/" + data.response)
@@ -30,6 +33,7 @@
                 let edit = document.createElement("a");
                 edit.classList.add("btn");
                 edit.classList.add("btn-secondary");
+                edit.style.margin = "0.5em"
                 
                 let form = document.createElement("FORM");
                 form.action = "/deleteDish/" + i.id;
