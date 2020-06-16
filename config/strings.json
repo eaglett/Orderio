@@ -1,11 +1,11 @@
 {
     "welcomeIntro": "Welcome to our portal! \nIn order to use your account you need to verify your email. Click on the following link.\n",
-    "verificationLink": "http://l54.146.67.92/verification/",
-    "welcomeOutro": "\n Link is valid for 10 minutes. If it expired and you need a new link, visit 54.146.67.92/newVerification .",
+    "verificationLink": "http://54.146.67.92/verification/",
+    "welcomeOutro": "\n Link is valid for 10 minutes. If it expired and you need a new link, visit http://54.146.67.92/newVerification .",
     "passResetIntro": "We have recived a request to reset your account password. If you didn't request it, ignore this email. If you did, follow the link.\n",
     "passwordLink": "http://54.146.67.92/passwordReset/",
     "orderConfirmation": "Thank you for your order!\nThe restaurant will start preparing your food shortly. Your order number is: ",
-    "trackingLink": "\nYou can track status of your order on: http:/54.146.67.92/tracking/",
+    "trackingLink": "\nYou can track status of your order on: http://54.146.67.92/tracking/",
     "businessOrder": "A customer has created an order from your restaurant. Click on the following link to see the order: ",
     "businessOrderLink": "http://54.146.67.92/tracking/"
 }
